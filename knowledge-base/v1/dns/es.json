@@ -1,0 +1,32 @@
+{
+  "country": "ES",
+  "servers": [
+    {
+      "hostname": "dns0.eu",
+      "operator": "dns0.eu",
+      "jurisdiction": "EU",
+      "nonProfit": true,
+      "filtersMalware": true,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.dns0"
+    },
+    {
+      "hostname": "dns.mullvad.net",
+      "operator": "Mullvad",
+      "jurisdiction": "SE",
+      "nonProfit": false,
+      "filtersMalware": false,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.mullvad"
+    },
+    {
+      "hostname": "dns.quad9.net",
+      "operator": "Quad9",
+      "jurisdiction": "CH",
+      "nonProfit": true,
+      "filtersMalware": true,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.quad9"
+    }
+  ]
+}

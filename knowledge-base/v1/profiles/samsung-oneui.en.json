@@ -1,0 +1,248 @@
+{
+  "profileId": "samsung-oneui",
+  "language": "en",
+  "label": "Samsung Galaxy (One UI)",
+  "manufacturer": "samsung",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identity & advertising",
+      "description": "Prevent advertising tracking and profiling by Google, Samsung, and third-party ad networks.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Delete the advertising ID",
+          "risk": "A unique identifier used by ad networks to build your profile across all apps.",
+          "whyItMatters": "Since Android 12, you can fully delete this ID instead of just resetting it.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Open Google settings",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Settings > Google > All services > Ads"
+            },
+            { "label": "Tap \"Delete advertising ID\"" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Turn off Google personalized ads",
+          "risk": "Without this step, Google uses your history to target ads across its services.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open adssettings.google.com in your browser",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "Turn off \"Personalized ads\"" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "samsung-account",
+      "label": "Samsung Account",
+      "description": "Limit data sharing with Samsung through your account.",
+      "checks": [
+        {
+          "checkId": "samsung-account-personalization",
+          "title": "Turn off Samsung Account personalization",
+          "risk": "Samsung collects your usage history to \"personalize\" its services (Galaxy Store recommendations, Samsung Daily, etc.).",
+          "whyItMatters": "This setting is enabled by default when the Samsung account is created.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open Samsung Account settings",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Settings > Samsung Account > Privacy"
+            },
+            { "label": "Turn off \"Customization Service\"" },
+            { "label": "Turn off \"Marketing communications\" if enabled" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Network & sovereign DNS",
+      "description": "Encrypt your DNS queries and choose an operator that does not sell your data.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Enable a sovereign private DNS",
+          "risk": "Without private DNS, your ISP sees every site you visit, even over HTTPS.",
+          "whyItMatters": "Private DNS (DoT) encrypts these queries and routes them to an operator you choose.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Open connection settings",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Settings > Connections > More connection settings > Private DNS"
+            },
+            { "label": "Select \"Private DNS provider hostname\"" },
+            { "label": "Enter the recommended hostname for your country" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Disable always-on Wi-Fi/Bluetooth scanning",
+          "risk": "Android continuously scans Wi-Fi and Bluetooth networks to improve location, even when you don't use them.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open location settings",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Settings > Location > Wi-Fi/Bluetooth scanning"
+            },
+            { "label": "Turn off \"Wi-Fi scanning\" and \"Bluetooth scanning\"" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Voice assistants & keyboard",
+      "description": "Prevent permanent listening and typing-data collection.",
+      "checks": [
+        {
+          "checkId": "bixby-voice-wake",
+          "title": "Turn off Bixby voice wake-up",
+          "risk": "With voice wake-up enabled, the microphone is always listening for \"Hi Bixby\".",
+          "whyItMatters": "Even if you don't use Bixby, the service can stay active in the background.",
+          "severity": "important",
+          "steps": [
+            { "label": "Open the Bixby app" },
+            { "label": "Tap the menu icon > Settings > Voice wake-up" },
+            { "label": "Turn off \"Voice wake-up\"" }
+          ]
+        },
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "Turn off \"Hey Google\"",
+          "risk": "With the Google hotword enabled, the microphone is also always listening.",
+          "severity": "important",
+          "steps": [
+            { "label": "Open the Google app, then Settings > Google Assistant" },
+            { "label": "Go to \"Hey Google & Voice Match\" and turn it off" }
+          ]
+        },
+        {
+          "checkId": "samsung-keyboard-personalization",
+          "title": "Turn off Samsung Keyboard personalization",
+          "risk": "Samsung Keyboard can send typing data to Samsung to \"improve\" suggestions.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "Open Samsung Keyboard settings",
+              "intent": { "action": "android.settings.INPUT_METHOD_SETTINGS" },
+              "fallbackPath": "Settings > General management > Samsung Keyboard > Personalized data"
+            },
+            { "label": "Turn off \"Personalized data\"" },
+            { "label": "Tap \"Clear personalized data\"" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "samsung-services",
+      "label": "Background Samsung services",
+      "description": "Disable Samsung services that collect or transmit data in the background.",
+      "checks": [
+        {
+          "checkId": "customization-service",
+          "title": "Turn off Samsung Customization Service",
+          "risk": "This service collects your usage history (apps opened, frequency, preferences) to feed Samsung recommendations.",
+          "whyItMatters": "Enabled by default on most Galaxy devices. No functional impact when disabled.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Open privacy settings",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Privacy > Customization Service"
+            },
+            { "label": "Turn off \"Customization Service\"" }
+          ]
+        },
+        {
+          "checkId": "samsung-push-service",
+          "title": "Limit Samsung Push Service",
+          "risk": "Samsung Push Service keeps a permanent connection to Samsung servers for notifications from their apps (Galaxy Store, Samsung Pay, etc.).",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "Open the app list",
+              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
+              "fallbackPath": "Settings > Apps > Samsung Push Service"
+            },
+            { "label": "Restrict background data and battery, or disable if you don't use Samsung apps" }
+          ]
+        },
+        {
+          "checkId": "game-optimizing-service",
+          "title": "Disable Game Optimizing Service (GOS)",
+          "risk": "GOS throttles performance for apps identified as games and collects usage data.",
+          "whyItMatters": "Controversial: Samsung was fined in South Korea in 2022 over its GOS practices.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "Open app settings",
+              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
+              "fallbackPath": "Settings > Apps > Game Optimizing Service"
+            },
+            { "label": "Disable if possible, otherwise revoke permissions and force stop" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "diagnostics",
+      "label": "Diagnostics & reports",
+      "description": "Stop automatic error and diagnostic reports from being sent to Samsung.",
+      "checks": [
+        {
+          "checkId": "samsung-diagnostics",
+          "title": "Turn off Samsung diagnostics",
+          "risk": "Samsung continuously collects usage and error reports containing information about your device and habits.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open privacy settings",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Privacy > Send diagnostic data"
+            },
+            { "label": "Turn off \"Send diagnostic data\"" },
+            { "label": "Turn off \"Send usage data\" if present" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "App permissions",
+      "description": "Check that no app has unjustified access to your microphone, camera, or location.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Audit sensitive permissions",
+          "risk": "Some apps keep microphone, camera, or background location access far beyond what they need.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Open the permission manager",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Security and privacy > Permission manager"
+            },
+            { "label": "Go through each category (Microphone, Camera, Location) and restrict suspicious apps" }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1",
+  "updatedAt": "2026-04-20",
+  "profiles": [
+    {
+      "profileId": "android-generic",
+      "manufacturer": "*",
+      "languages": ["fr", "en", "es", "de"],
+      "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
+    },
+    {
+      "profileId": "samsung-oneui",
+      "manufacturer": "samsung",
+      "languages": ["fr", "en", "es", "de"],
+      "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
+    }
+  ],
+  "dnsCountries": ["FR", "DE", "ES", "GB", "EU"],
+  "defaultDnsCountry": "EU"
+}

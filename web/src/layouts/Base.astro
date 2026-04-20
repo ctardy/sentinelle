@@ -1,0 +1,51 @@
+---
+import '@/styles/global.css';
+import { LOCALES, t, type Locale } from '@/i18n/ui';
+
+interface Props {
+  lang: Locale;
+  title: string;
+  description?: string;
+}
+
+const { lang, title, description } = Astro.props;
+const strings = t(lang);
+const fullTitle = title === strings.siteTitle ? title : `${title} — ${strings.siteTitle}`;
+const currentPath = Astro.url.pathname;
+
+function switchLang(target: Locale): string {
+  // Remplace /<lang>/... par /<target>/... — segment langue toujours en tête
+  const segments = currentPath.split('/').filter(Boolean);
+  if (segments.length === 0) return `/${target}/`;
+  segments[0] = target;
+  return '/' + segments.join('/') + '/';
+}
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description ?? strings.tagline} />
+    <meta name="robots" content="index,follow" />
+    <title>{fullTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={Astro.url.href} />
+  </head>
+  <body>
+    <header class="site">
+      <div class="inner">
+        <div class="brand"><a href={`/${lang}/`}>{strings.siteTitle}</a></div>
+        <nav aria-label={strings.languageSwitcher}>
+          {LOCALES.map((loc) => (
+            <a href={switchLang(loc)} class={loc === lang ? 'active' : ''}>{loc.toUpperCase()}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site">{strings.footerPrivacy}</footer>
+  </body>
+</html>

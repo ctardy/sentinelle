@@ -1,0 +1,32 @@
+{
+  "country": "DE",
+  "servers": [
+    {
+      "hostname": "dns3.digitalcourage.de",
+      "operator": "Digitalcourage e.V.",
+      "jurisdiction": "DE",
+      "nonProfit": true,
+      "filtersMalware": false,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.digitalcourage"
+    },
+    {
+      "hostname": "dns0.eu",
+      "operator": "dns0.eu",
+      "jurisdiction": "EU",
+      "nonProfit": true,
+      "filtersMalware": true,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.dns0"
+    },
+    {
+      "hostname": "dns.quad9.net",
+      "operator": "Quad9",
+      "jurisdiction": "CH",
+      "nonProfit": true,
+      "filtersMalware": true,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.quad9"
+    }
+  ]
+}

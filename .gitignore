@@ -1,0 +1,34 @@
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+android/captures/
+android/app/release/
+android/app/debug/
+*.iml
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Web (Astro / Node)
+web/node_modules/
+web/dist/
+web/.astro/
+web/.turbo/
+web/package-lock.json
+web/yarn.lock
+web/pnpm-lock.yaml
+
+

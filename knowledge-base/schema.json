@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sentinelle.app/schema/v1/profile.json",
+  "title": "Sentinelle — Profil d'audit (localisé)",
+  "description": "Un fichier par combinaison profileId x language. La structure (IDs, Intents, ordre) doit être identique entre les langues d'un même profil ; seuls les champs textuels diffèrent.",
+  "type": "object",
+  "required": ["profileId", "language", "label", "manufacturer", "androidVersions", "categories"],
+  "properties": {
+    "profileId": {
+      "type": "string",
+      "description": "Identifiant stable, ex: 'android-generic', 'samsung-oneui-6'",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "language": {
+      "type": "string",
+      "description": "Code langue ISO 639-1, ex: 'fr', 'en', 'es', 'de'",
+      "pattern": "^[a-z]{2}$"
+    },
+    "label": {
+      "type": "string",
+      "description": "Libellé affiché dans la liste de sélection, dans la langue de ce fichier"
+    },
+    "manufacturer": {
+      "type": "string",
+      "description": "Valeur attendue de Build.MANUFACTURER (minuscules), '*' pour générique",
+      "examples": ["samsung", "google", "xiaomi", "*"]
+    },
+    "androidVersions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["minSdk", "maxSdk"],
+        "properties": {
+          "minSdk": { "type": "integer", "minimum": 21 },
+          "maxSdk": { "type": "integer", "maximum": 99 }
+        }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "description": "Catégories d'audit, ordre d'affichage respecté",
+      "items": { "$ref": "#/$defs/category" }
+    }
+  },
+  "$defs": {
+    "category": {
+      "type": "object",
+      "required": ["categoryId", "label", "checks"],
+      "properties": {
+        "categoryId": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "label": { "type": "string" },
+        "description": { "type": "string" },
+        "checks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/check" }
+        }
+      }
+    },
+    "check": {
+      "type": "object",
+      "required": ["checkId", "title", "risk", "steps"],
+      "properties": {
+        "checkId": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "title": { "type": "string" },
+        "risk": {
+          "type": "string",
+          "description": "Explication courte du risque pour la vie privée"
+        },
+        "whyItMatters": {
+          "type": "string",
+          "description": "Développement optionnel affiché sur demande"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "important", "recommended"],
+          "default": "recommended"
+        },
+        "autoDetect": {
+          "type": "object",
+          "description": "Règle de détection automatique optionnelle",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": ["package-installed", "advertising-id", "private-dns", "setting-global", "setting-secure"]
+            },
+            "target": { "type": "string" }
+          }
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label"],
+            "properties": {
+              "label": { "type": "string" },
+              "intent": {
+                "type": "object",
+                "description": "Action Intent obligatoire, reste optionnel",
+                "properties": {
+                  "action": { "type": "string" },
+                  "packageName": { "type": "string" },
+                  "className": { "type": "string" },
+                  "data": { "type": "string" },
+                  "extras": {
+                    "type": "object",
+                    "additionalProperties": { "type": "string" }
+                  }
+                }
+              },
+              "fallbackPath": {
+                "type": "string",
+                "description": "Chemin textuel des Réglages si l'Intent échoue"
+              }
+            }
+          }
+        },
+        "dnsOptionsCountryFile": {
+          "type": "string",
+          "description": "Pour un check DNS privé : référence vers le fichier pays correspondant, ex: 'dns/fr.json'. Le contenu est chargé dynamiquement selon le pays choisi par l'utilisateur."
+        }
+      }
+    }
+  }
+}

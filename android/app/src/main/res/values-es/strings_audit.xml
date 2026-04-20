@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="audit_progress">%1$d/%2$d completados</string>
+    <string name="audit_score">Puntuación: %1$d/100</string>
+    <string name="audit_risk">Riesgo</string>
+    <string name="audit_why_it_matters">Por qué es importante</string>
+    <string name="audit_steps">Pasos</string>
+    <string name="audit_open_settings">Abrir en Ajustes</string>
+    <string name="audit_fallback_path">Ruta manual</string>
+    <string name="audit_mark_done">Marcar como hecho</string>
+    <string name="audit_marked_done">Hecho ✓</string>
+    <string name="audit_dns_recommended">DNS recomendados (%1$s)</string>
+    <string name="audit_not_available">No se pueden abrir los Ajustes en este dispositivo.</string>
+    <string name="severity_critical">Crítico</string>
+    <string name="severity_important">Importante</string>
+    <string name="severity_recommended">Recomendado</string>
+</resources>

@@ -1,0 +1,55 @@
+---
+import Base from '@/layouts/Base.astro';
+import { LOCALES, t, type Locale } from '@/i18n/ui';
+import { loadIndex, loadDns } from '@/lib/kb';
+
+export function getStaticPaths() {
+  const index = loadIndex();
+  const paths: { params: { lang: Locale; country: string } }[] = [];
+  for (const lang of LOCALES) {
+    for (const country of index.dnsCountries) {
+      paths.push({ params: { lang, country: country.toLowerCase() } });
+    }
+  }
+  return paths;
+}
+
+const { lang, country } = Astro.params as { lang: Locale; country: string };
+const strings = t(lang);
+const dns = loadDns(country);
+const index = loadIndex();
+---
+<Base lang={lang} title={`${strings.dnsSovereign} — ${country.toUpperCase()}`}>
+  <p class="breadcrumb"><a href={`/${lang}/`}>&larr; {strings.backHome}</a></p>
+  <h1>{strings.dnsSovereign}</h1>
+
+  <div class="country-picker" aria-label={strings.country}>
+    {index.dnsCountries.map((c) => (
+      <a
+        href={`/${lang}/dns/${c.toLowerCase()}/`}
+        class={c.toLowerCase() === country.toLowerCase() ? 'active' : ''}
+      >{c}</a>
+    ))}
+  </div>
+
+  {dns ? (
+    <div class="dns-list">
+      {dns.servers.map((s) => (
+        <article class="dns-item">
+          <div class="hostname">{s.hostname}</div>
+          <div class="meta">
+            <span><strong>{strings.operator}</strong> : {s.operator}</span>
+            <span><strong>{strings.jurisdiction}</strong> : {s.jurisdiction}</span>
+          </div>
+          <div class="flags">
+            {s.nonProfit && <span>✓ {strings.nonProfit}</span>}
+            {s.filtersMalware && <span>✓ {strings.filtersMalware}</span>}
+            {s.logsPolicy === 'no-logs' && <span>✓ {strings.logsNone}</span>}
+          </div>
+        </article>
+      ))}
+    </div>
+  ) : (
+    <p>—</p>
+  )}
+</Base>

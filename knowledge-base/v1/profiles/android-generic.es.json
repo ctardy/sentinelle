@@ -1,0 +1,135 @@
+{
+  "profileId": "android-generic",
+  "language": "es",
+  "label": "Android genérico (Pixel, AOSP)",
+  "manufacturer": "*",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identidad y publicidad",
+      "description": "Evitar el rastreo publicitario y la elaboración de perfiles por Google y las redes de anuncios de terceros.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Eliminar el identificador publicitario",
+          "risk": "Un identificador único utilizado por las redes publicitarias para construir su perfil a través de todas las aplicaciones.",
+          "whyItMatters": "Desde Android 12, puede eliminar por completo este identificador en lugar de solo restablecerlo.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Abrir los ajustes de Google",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Ajustes > Google > Todos los servicios > Anuncios"
+            },
+            { "label": "Pulsar «Eliminar ID publicitario»" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Desactivar la personalización de anuncios de Google",
+          "risk": "Sin este paso, Google utiliza su historial para mostrar anuncios segmentados en sus servicios.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Abrir adssettings.google.com en su navegador",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "Desactivar «Anuncios personalizados»" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Red y DNS soberano",
+      "description": "Cifrar sus consultas DNS y elegir un operador que no venda sus datos.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Activar un DNS privado soberano",
+          "risk": "Sin DNS privado, su proveedor de acceso ve cada sitio que visita, incluso a través de HTTPS.",
+          "whyItMatters": "El DNS privado (DoT) cifra estas consultas y las envía a un operador elegido por usted.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Abrir los ajustes de DNS privado",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Ajustes > Red e internet > DNS privado"
+            },
+            { "label": "Elegir «Nombre de host del proveedor de DNS privado»" },
+            { "label": "Introducir el nombre de host recomendado según su país" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Desactivar la búsqueda permanente de Wi-Fi y Bluetooth",
+          "risk": "Android escanea continuamente las redes Wi-Fi y Bluetooth para mejorar la localización, incluso cuando no las utiliza.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Abrir los ajustes de ubicación",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Ajustes > Ubicación > Servicios de ubicación"
+            },
+            { "label": "Desactivar «Búsqueda de Wi-Fi» y «Búsqueda de Bluetooth»" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Asistentes de voz y teclado",
+      "description": "Evitar la escucha permanente y la recopilación de sus pulsaciones.",
+      "checks": [
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "Desactivar «Hey Google»",
+          "risk": "Con la palabra de activación, el micrófono está escuchando de forma permanente.",
+          "severity": "important",
+          "steps": [
+            { "label": "Abrir la aplicación Google y pulsar «Ajustes» > «Asistente de Google»" },
+            { "label": "Ir a «Hey Google y Voice Match» y desactivar" }
+          ]
+        },
+        {
+          "checkId": "gboard-stats",
+          "title": "Desactivar el envío de estadísticas de Gboard",
+          "risk": "Gboard puede enviar a Google sus estadísticas de escritura y fragmentos de texto para «mejorar» el teclado.",
+          "severity": "recommended",
+          "steps": [
+            { "label": "Abrir Gboard > Avanzado" },
+            { "label": "Desactivar «Compartir estadísticas de uso» y «Compartir fragmentos»" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "Permisos de las aplicaciones",
+      "description": "Comprobar que ninguna aplicación tenga acceso injustificado a su micrófono, cámara o ubicación.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Auditar los permisos sensibles",
+          "risk": "Algunas aplicaciones mantienen acceso al micrófono, a la cámara o a su ubicación en segundo plano mucho más allá de lo necesario.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Abrir el gestor de permisos",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Ajustes > Privacidad > Gestor de permisos"
+            },
+            { "label": "Revisar cada categoría (Micrófono, Cámara, Ubicación) y restringir las aplicaciones sospechosas" }
+          ]
+        }
+      ]
+    }
+  ]
+}

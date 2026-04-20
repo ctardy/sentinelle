@@ -1,0 +1,31 @@
+---
+import Base from '@/layouts/Base.astro';
+import { LOCALES, t, type Locale } from '@/i18n/ui';
+import { loadIndex, loadProfile } from '@/lib/kb';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const strings = t(lang);
+const index = loadIndex();
+const profiles = index.profiles
+  .map((p) => loadProfile(p.profileId, lang))
+  .filter((p): p is NonNullable<typeof p> => p !== null);
+---
+<Base lang={lang} title={strings.siteTitle} description={strings.tagline}>
+  <h1>{strings.siteTitle}</h1>
+  <p class="tagline">{strings.tagline}</p>
+  <p>{strings.introHome}</p>
+
+  <h2>{strings.chooseDevice}</h2>
+  <div class="card-grid">
+    {profiles.map((p) => (
+      <a class="card" href={`/${lang}/profil/${p.profileId}/`}>
+        <strong>{p.label}</strong>
+        <span>Android {p.androidVersions.map((v) => `${v.minSdk}–${v.maxSdk}`).join(', ')}</span>
+      </a>
+    ))}
+  </div>
+</Base>

@@ -1,0 +1,41 @@
+{
+  "country": "FR",
+  "servers": [
+    {
+      "hostname": "dns.fdn.fr",
+      "operator": "FDN (Fédération FDN)",
+      "jurisdiction": "FR",
+      "nonProfit": true,
+      "filtersMalware": false,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.fdn"
+    },
+    {
+      "hostname": "dns.ldn-fai.net",
+      "operator": "Lorraine Data Network",
+      "jurisdiction": "FR",
+      "nonProfit": true,
+      "filtersMalware": false,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.ldn"
+    },
+    {
+      "hostname": "dns0.eu",
+      "operator": "dns0.eu",
+      "jurisdiction": "EU",
+      "nonProfit": true,
+      "filtersMalware": true,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.dns0"
+    },
+    {
+      "hostname": "dns.quad9.net",
+      "operator": "Quad9",
+      "jurisdiction": "CH",
+      "nonProfit": true,
+      "filtersMalware": true,
+      "logsPolicy": "no-logs",
+      "notesKey": "dns.notes.quad9"
+    }
+  ]
+}

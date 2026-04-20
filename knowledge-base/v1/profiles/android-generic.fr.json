@@ -1,0 +1,135 @@
+{
+  "profileId": "android-generic",
+  "language": "fr",
+  "label": "Android générique (Pixel, AOSP)",
+  "manufacturer": "*",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identité & publicité",
+      "description": "Empêcher le pistage publicitaire et la personnalisation par Google et les régies tierces.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Supprimer l'identifiant publicitaire",
+          "risk": "Un identifiant unique suivi par les régies publicitaires pour construire votre profil sur toutes les applications.",
+          "whyItMatters": "Depuis Android 12, vous pouvez supprimer complètement cet identifiant plutôt que simplement le réinitialiser.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres Google",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Paramètres > Google > Tous les services > Annonces"
+            },
+            { "label": "Appuyer sur « Supprimer l'ID publicitaire »" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Désactiver la personnalisation des annonces Google",
+          "risk": "Sans cette étape, Google utilise votre historique pour cibler les publicités affichées sur vos services.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Se rendre sur adssettings.google.com depuis votre navigateur",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "Désactiver « Annonces personnalisées »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Réseau & DNS souverain",
+      "description": "Chiffrer vos requêtes DNS et choisir un opérateur qui ne revend pas vos données.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Activer un DNS privé souverain",
+          "risk": "Sans DNS privé, votre fournisseur d'accès voit chaque site que vous consultez, même sur HTTPS.",
+          "whyItMatters": "Le DNS privé (DoT) chiffre ces requêtes et les envoie à un opérateur que vous choisissez.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres DNS privé",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Paramètres > Réseau et internet > DNS privé"
+            },
+            { "label": "Choisir « Nom d'hôte du fournisseur DNS privé »" },
+            { "label": "Saisir le nom d'hôte recommandé selon votre pays" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Désactiver la recherche Wi-Fi/Bluetooth permanente",
+          "risk": "Android scanne les réseaux Wi-Fi et Bluetooth en continu pour améliorer la localisation, même quand vous ne l'utilisez pas.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de localisation",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Paramètres > Localisation > Services de localisation"
+            },
+            { "label": "Désactiver « Recherche Wi-Fi » et « Recherche Bluetooth »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Assistants vocaux & clavier",
+      "description": "Empêcher l'écoute permanente et la collecte de votre frappe.",
+      "checks": [
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "Désactiver « Hey Google »",
+          "risk": "Avec le mot-clé d'activation, le micro est à l'écoute en permanence.",
+          "severity": "important",
+          "steps": [
+            { "label": "Ouvrir l'application Google, puis « Paramètres » > « Assistant Google »" },
+            { "label": "Aller dans « Hey Google et Voice Match » et désactiver" }
+          ]
+        },
+        {
+          "checkId": "gboard-stats",
+          "title": "Désactiver le partage de statistiques de Gboard",
+          "risk": "Gboard peut envoyer vos statistiques de frappe et des extraits à Google pour « améliorer » le clavier.",
+          "severity": "recommended",
+          "steps": [
+            { "label": "Ouvrir Gboard > Avancé" },
+            { "label": "Désactiver « Partager les statistiques d'utilisation » et « Partager les extraits »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "Permissions des applications",
+      "description": "Vérifier qu'aucune application n'a un accès injustifié à votre micro, caméra ou position.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Auditer les permissions sensibles",
+          "risk": "Certaines applications gardent l'accès au micro, à la caméra ou à votre position en arrière-plan bien au-delà de ce qui est nécessaire.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Ouvrir le gestionnaire d'autorisations",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Confidentialité > Gestionnaire d'autorisations"
+            },
+            { "label": "Passer chaque catégorie (Micro, Caméra, Position) et restreindre les apps suspectes" }
+          ]
+        }
+      ]
+    }
+  ]
+}

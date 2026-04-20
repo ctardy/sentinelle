@@ -1,0 +1,85 @@
+---
+import Base from '@/layouts/Base.astro';
+import { LOCALES, t, type Locale } from '@/i18n/ui';
+import { loadIndex, loadProfile } from '@/lib/kb';
+
+export function getStaticPaths() {
+  const index = loadIndex();
+  const paths: { params: { lang: Locale; profileId: string } }[] = [];
+  for (const lang of LOCALES) {
+    for (const p of index.profiles) {
+      const profile = loadProfile(p.profileId, lang);
+      if (profile) {
+        paths.push({ params: { lang, profileId: p.profileId } });
+      }
+    }
+  }
+  return paths;
+}
+
+const { lang, profileId } = Astro.params as { lang: Locale; profileId: string };
+const strings = t(lang);
+const profile = loadProfile(profileId, lang)!;
+const index = loadIndex();
+
+function severityClass(s?: string): string {
+  if (s === 'critical') return 'critical';
+  if (s === 'important') return 'important';
+  return 'recommended';
+}
+function severityLabel(s?: string): string {
+  if (s === 'critical') return strings.severityCritical;
+  if (s === 'important') return strings.severityImportant;
+  return strings.severityRecommended;
+}
+function dnsLinkFor(template: string, country: string): string {
+  return `/${lang}/dns/${country.toLowerCase()}/`;
+}
+---
+<Base lang={lang} title={profile.label}>
+  <p class="breadcrumb"><a href={`/${lang}/`}>&larr; {strings.backHome}</a></p>
+  <h1>{profile.label}</h1>
+
+  {profile.categories.map((cat) => (
+    <section>
+      <h2>{cat.label}</h2>
+      {cat.description && <p>{cat.description}</p>}
+      {cat.checks.map((check) => (
+        <article class="check">
+          <header>
+            <h3>{check.title}</h3>
+            <span class={`badge ${severityClass(check.severity)}`}>
+              {severityLabel(check.severity)}
+            </span>
+          </header>
+          <p class="risk">{check.risk}</p>
+          {check.whyItMatters && (
+            <p class="why"><strong>{strings.whyItMatters} —</strong> {check.whyItMatters}</p>
+          )}
+          <h4>{strings.steps}</h4>
+          <ol class="steps">
+            {check.steps.map((step) => (
+              <li>
+                {step.label}
+                {step.fallbackPath && (
+                  <span class="fallback">{strings.fallbackPath} : {step.fallbackPath}</span>
+                )}
+              </li>
+            ))}
+          </ol>
+          {check.dnsOptionsCountryFile && (
+            <p>
+              &rarr;{' '}
+              {index.dnsCountries.map((country, i) => (
+                <>
+                  {i > 0 && ' · '}
+                  <a href={dnsLinkFor(check.dnsOptionsCountryFile!, country)}>{country}</a>
+                </>
+              ))}
+            </p>
+          )}
+        </article>
+      ))}
+    </section>
+  ))}
+</Base>

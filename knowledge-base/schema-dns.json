@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sentinelle.app/schema/v1/dns.json",
+  "title": "Sentinelle — Liste de serveurs DNS souverains par pays",
+  "type": "object",
+  "required": ["country", "servers"],
+  "properties": {
+    "country": {
+      "type": "string",
+      "description": "Code pays ISO 3166-1 alpha-2",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "servers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["hostname", "operator", "jurisdiction"],
+        "properties": {
+          "hostname": {
+            "type": "string",
+            "description": "Nom d'hôte DoT (Private DNS), ex: 'dns.fdn.fr'"
+          },
+          "operator": {
+            "type": "string",
+            "description": "Opérateur, ex: 'FDN (Fédération FDN)', 'dns0.eu', 'Quad9'"
+          },
+          "jurisdiction": {
+            "type": "string",
+            "description": "Juridiction légale, ex: 'FR', 'EU', 'CH', 'DE'"
+          },
+          "nonProfit": { "type": "boolean" },
+          "filtersMalware": { "type": "boolean" },
+          "logsPolicy": {
+            "type": "string",
+            "description": "Politique de logs en résumé",
+            "enum": ["no-logs", "minimal", "unknown"]
+          },
+          "notesKey": {
+            "type": "string",
+            "description": "Clé de traduction pour notes spécifiques, résolues par l'app"
+          }
+        }
+      }
+    }
+  }
+}

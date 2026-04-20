@@ -1,0 +1,12 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# Assets générés depuis knowledge-base/ au build (voir syncKnowledgeBase).
+/app/src/main/assets/kb/

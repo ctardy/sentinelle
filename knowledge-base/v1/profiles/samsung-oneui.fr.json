@@ -1,0 +1,248 @@
+{
+  "profileId": "samsung-oneui",
+  "language": "fr",
+  "label": "Samsung Galaxy (One UI)",
+  "manufacturer": "samsung",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identité & publicité",
+      "description": "Empêcher le pistage publicitaire et la personnalisation par Google, Samsung et les régies tierces.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Supprimer l'identifiant publicitaire",
+          "risk": "Un identifiant unique suivi par les régies publicitaires pour construire votre profil sur toutes les applications.",
+          "whyItMatters": "Depuis Android 12, vous pouvez supprimer complètement cet identifiant plutôt que simplement le réinitialiser.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres Google",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Paramètres > Google > Tous les services > Annonces"
+            },
+            { "label": "Appuyer sur « Supprimer l'ID publicitaire »" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Désactiver la personnalisation des annonces Google",
+          "risk": "Sans cette étape, Google utilise votre historique pour cibler les publicités affichées sur vos services.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Se rendre sur adssettings.google.com depuis votre navigateur",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "Désactiver « Annonces personnalisées »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "samsung-account",
+      "label": "Compte Samsung",
+      "description": "Limiter le partage de données avec Samsung via votre compte.",
+      "checks": [
+        {
+          "checkId": "samsung-account-personalization",
+          "title": "Désactiver la personnalisation Samsung Account",
+          "risk": "Samsung collecte votre historique d'usage pour « personnaliser » ses services (recommandations Galaxy Store, Samsung Daily, etc.).",
+          "whyItMatters": "Ce réglage est activé par défaut à la création du compte Samsung.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres Samsung Account",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Paramètres > Samsung Account > Confidentialité"
+            },
+            { "label": "Désactiver « Service de personnalisation »" },
+            { "label": "Désactiver « Communications marketing » si actif" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Réseau & DNS souverain",
+      "description": "Chiffrer vos requêtes DNS et choisir un opérateur qui ne revend pas vos données.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Activer un DNS privé souverain",
+          "risk": "Sans DNS privé, votre fournisseur d'accès voit chaque site que vous consultez, même sur HTTPS.",
+          "whyItMatters": "Le DNS privé (DoT) chiffre ces requêtes et les envoie à un opérateur que vous choisissez.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de connexion",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Paramètres > Connexions > Autres paramètres de connexion > DNS privé"
+            },
+            { "label": "Choisir « Nom d'hôte du fournisseur DNS privé »" },
+            { "label": "Saisir le nom d'hôte recommandé selon votre pays" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Désactiver la recherche Wi-Fi/Bluetooth permanente",
+          "risk": "Android scanne les réseaux Wi-Fi et Bluetooth en continu pour améliorer la localisation, même quand vous ne l'utilisez pas.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de localisation",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Paramètres > Localisation > Paramètres de localisation Wi-Fi/Bluetooth"
+            },
+            { "label": "Désactiver « Recherche Wi-Fi » et « Recherche Bluetooth »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Assistants vocaux & clavier",
+      "description": "Empêcher l'écoute permanente et la collecte de votre frappe.",
+      "checks": [
+        {
+          "checkId": "bixby-voice-wake",
+          "title": "Désactiver le réveil vocal Bixby",
+          "risk": "Avec le réveil vocal activé, le micro est à l'écoute en permanence pour détecter « Hi Bixby ».",
+          "whyItMatters": "Même sans utiliser Bixby, le service peut rester actif en arrière-plan.",
+          "severity": "important",
+          "steps": [
+            { "label": "Ouvrir l'application Bixby" },
+            { "label": "Toucher l'icône menu > Paramètres > Réveil vocal" },
+            { "label": "Désactiver « Réveil vocal »" }
+          ]
+        },
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "Désactiver « Hey Google »",
+          "risk": "Avec le mot-clé d'activation Google, le micro est aussi à l'écoute en permanence.",
+          "severity": "important",
+          "steps": [
+            { "label": "Ouvrir l'application Google, puis « Paramètres » > « Assistant Google »" },
+            { "label": "Aller dans « Hey Google et Voice Match » et désactiver" }
+          ]
+        },
+        {
+          "checkId": "samsung-keyboard-personalization",
+          "title": "Désactiver la personnalisation du clavier Samsung",
+          "risk": "Le clavier Samsung peut envoyer vos données de frappe à Samsung pour « améliorer » les suggestions.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres du clavier Samsung",
+              "intent": { "action": "android.settings.INPUT_METHOD_SETTINGS" },
+              "fallbackPath": "Paramètres > Gestion globale > Clavier Samsung > Données de personnalisation"
+            },
+            { "label": "Désactiver « Données de personnalisation »" },
+            { "label": "Appuyer sur « Effacer les données de personnalisation »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "samsung-services",
+      "label": "Services Samsung en arrière-plan",
+      "description": "Désactiver les services Samsung qui collectent ou transmettent des données en arrière-plan.",
+      "checks": [
+        {
+          "checkId": "customization-service",
+          "title": "Désactiver le Service de personnalisation Samsung",
+          "risk": "Ce service collecte votre historique d'usage (apps ouvertes, fréquence, préférences) pour alimenter les recommandations Samsung.",
+          "whyItMatters": "Activé par défaut sur la plupart des Galaxy. Aucun impact fonctionnel si désactivé.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de confidentialité",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Confidentialité > Service de personnalisation"
+            },
+            { "label": "Désactiver « Service de personnalisation »" }
+          ]
+        },
+        {
+          "checkId": "samsung-push-service",
+          "title": "Limiter Samsung Push Service",
+          "risk": "Samsung Push Service maintient une connexion permanente aux serveurs Samsung pour les notifications de leurs apps (Galaxy Store, Samsung Pay, etc.).",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "Ouvrir la liste des applications",
+              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
+              "fallbackPath": "Paramètres > Applications > Samsung Push Service"
+            },
+            { "label": "Restreindre les données en arrière-plan et la batterie, ou désactiver si vous n'utilisez pas d'apps Samsung" }
+          ]
+        },
+        {
+          "checkId": "game-optimizing-service",
+          "title": "Désactiver Game Optimizing Service (GOS)",
+          "risk": "GOS bride les performances de certaines applications identifiées comme des jeux et collecte des données d'usage.",
+          "whyItMatters": "Controversé : Samsung a été condamné en Corée du Sud en 2022 pour ses pratiques GOS.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres des applications",
+              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
+              "fallbackPath": "Paramètres > Applications > Game Optimizing Service"
+            },
+            { "label": "Désactiver si l'option est disponible, sinon couper les permissions et forcer l'arrêt" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "diagnostics",
+      "label": "Diagnostics & rapports",
+      "description": "Couper l'envoi automatique de rapports d'erreur et de diagnostics vers Samsung.",
+      "checks": [
+        {
+          "checkId": "samsung-diagnostics",
+          "title": "Désactiver les diagnostics Samsung",
+          "risk": "Samsung collecte en continu des rapports d'usage et d'erreur contenant des informations sur votre appareil et vos habitudes.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de confidentialité",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Confidentialité > Envoyer les informations de diagnostic"
+            },
+            { "label": "Désactiver « Envoyer les informations de diagnostic »" },
+            { "label": "Désactiver « Envoyer les données d'usage » si présent" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "Permissions des applications",
+      "description": "Vérifier qu'aucune application n'a un accès injustifié à votre micro, caméra ou position.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Auditer les permissions sensibles",
+          "risk": "Certaines applications gardent l'accès au micro, à la caméra ou à votre position en arrière-plan bien au-delà de ce qui est nécessaire.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Ouvrir le gestionnaire d'autorisations",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Sécurité et confidentialité > Gestionnaire d'autorisations"
+            },
+            { "label": "Passer chaque catégorie (Micro, Caméra, Position) et restreindre les apps suspectes" }
+          ]
+        }
+      ]
+    }
+  ]
+}
