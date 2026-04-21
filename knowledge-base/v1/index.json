@@ -9,19 +9,19 @@
       "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
     },
     {
-      "profileId": "samsung-oneui",
+      "profileId": "samsung",
       "manufacturer": "samsung",
       "languages": ["fr", "en", "es", "de"],
       "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
     },
     {
-      "profileId": "xiaomi-hyperos",
+      "profileId": "xiaomi",
       "manufacturer": "xiaomi",
       "languages": ["fr", "en", "es", "de"],
       "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
     },
     {
-      "profileId": "oppo-coloros",
+      "profileId": "oppo",
       "manufacturer": "oppo",
       "languages": ["fr", "en", "es", "de"],
       "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
@@ -33,7 +33,7 @@
       "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
     },
     {
-      "profileId": "honor-magicos",
+      "profileId": "honor",
       "manufacturer": "honor",
       "languages": ["fr", "en", "es", "de"],
       "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]

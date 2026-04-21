@@ -1,7 +1,7 @@
 {
-  "profileId": "samsung-oneui",
+  "profileId": "samsung",
   "language": "es",
-  "label": "Samsung Galaxy (One UI)",
+  "label": "Samsung",
   "manufacturer": "samsung",
   "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
   "categories": [

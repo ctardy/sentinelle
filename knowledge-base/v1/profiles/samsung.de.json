@@ -1,14 +1,14 @@
 {
-  "profileId": "oppo-coloros",
+  "profileId": "samsung",
   "language": "de",
-  "label": "OPPO / OnePlus / Realme (ColorOS / OxygenOS)",
-  "manufacturer": "oppo",
+  "label": "Samsung",
+  "manufacturer": "samsung",
   "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
   "categories": [
     {
       "categoryId": "identite",
       "label": "Identität & Werbung",
-      "description": "Werbetracking und Profilbildung durch Google, OPPO und Dritt-Werbenetzwerke verhindern.",
+      "description": "Werbetracking und Profilbildung durch Google, Samsung und Dritt-Werbenetzwerke verhindern.",
       "checks": [
         {
           "checkId": "advertising-id",
@@ -45,23 +45,23 @@
       ]
     },
     {
-      "categoryId": "heytap-account",
-      "label": "HeyTap- / OPPO- / OnePlus-Konto",
-      "description": "Datenaustausch mit OPPO, OnePlus oder Realme über Ihr Konto einschränken.",
+      "categoryId": "samsung-account",
+      "label": "Samsung-Konto",
+      "description": "Datenaustausch mit Samsung über Ihr Konto einschränken.",
       "checks": [
         {
-          "checkId": "heytap-account-personalization",
-          "title": "Personalisierung des HeyTap- / OPPO-Kontos deaktivieren",
-          "risk": "OPPO, OnePlus und Realme teilen sich ein einheitliches Konto (HeyTap / OPPO Account), das Ihren Nutzungsverlauf erfasst, um Dienste zu „personalisieren“ und Werbung gezielt auszuspielen.",
-          "whyItMatters": "Beim Anlegen des Kontos standardmäßig aktiv. Bei OnePlus gelten seit der OPPO-Fusion ab OxygenOS 13 dieselben Einstellungen.",
+          "checkId": "samsung-account-personalization",
+          "title": "Personalisierung des Samsung-Kontos deaktivieren",
+          "risk": "Samsung erfasst Ihren Nutzungsverlauf, um seine Dienste zu „personalisieren“ (Empfehlungen im Galaxy Store, Samsung Daily usw.).",
+          "whyItMatters": "Diese Einstellung ist beim Anlegen des Samsung-Kontos standardmäßig aktiv.",
           "severity": "important",
           "steps": [
             {
-              "label": "Kontoeinstellungen öffnen",
+              "label": "Samsung-Konto-Einstellungen öffnen",
               "intent": { "action": "android.settings.SETTINGS" },
-              "fallbackPath": "Einstellungen > HeyTap- (bzw. OPPO- / OnePlus-)Konto > Datenschutz"
+              "fallbackPath": "Einstellungen > Samsung-Konto > Datenschutz"
             },
-            { "label": "„Personalisierte Empfehlungen“ deaktivieren" },
+            { "label": "„Personalisierungsdienst“ deaktivieren" },
             { "label": "„Marketing-Kommunikation“ deaktivieren, falls aktiv" }
           ]
         }
@@ -83,7 +83,7 @@
             {
               "label": "Verbindungseinstellungen öffnen",
               "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
-              "fallbackPath": "Einstellungen > Verbindung & Freigabe > Privates DNS"
+              "fallbackPath": "Einstellungen > Verbindungen > Weitere Verbindungseinstellungen > Privates DNS"
             },
             { "label": "„Hostname des privaten DNS-Anbieters“ wählen" },
             { "label": "Den für Ihr Land empfohlenen Hostnamen eintragen" }
@@ -99,7 +99,7 @@
             {
               "label": "Standort-Einstellungen öffnen",
               "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
-              "fallbackPath": "Einstellungen > Standort > Standortdienste > WLAN-/Bluetooth-Suche"
+              "fallbackPath": "Einstellungen > Standort > WLAN-/Bluetooth-Suche"
             },
             { "label": "„WLAN-Suche“ und „Bluetooth-Suche“ deaktivieren" }
           ]
@@ -108,68 +108,95 @@
     },
     {
       "categoryId": "assistants",
-      "label": "Sprachassistenten",
-      "description": "Permanentes Mithören des Mikrofons durch Sprachassistenten verhindern.",
+      "label": "Sprachassistenten & Tastatur",
+      "description": "Permanentes Mithören und das Sammeln Ihrer Tastatureingaben verhindern.",
       "checks": [
+        {
+          "checkId": "bixby-voice-wake",
+          "title": "Sprachaktivierung von Bixby deaktivieren",
+          "risk": "Mit aktivierter Sprachaktivierung hört das Mikrofon permanent auf „Hi Bixby“.",
+          "whyItMatters": "Auch wenn Sie Bixby nicht nutzen, kann der Dienst im Hintergrund aktiv bleiben.",
+          "severity": "important",
+          "steps": [
+            { "label": "Bixby-App öffnen" },
+            { "label": "Auf das Menüsymbol tippen > Einstellungen > Sprachaktivierung" },
+            { "label": "„Sprachaktivierung“ deaktivieren" }
+          ]
+        },
         {
           "checkId": "google-assistant-hotword",
           "title": "„Hey Google“ deaktivieren",
-          "risk": "Mit dem Aktivierungswort hört das Mikrofon permanent zu.",
+          "risk": "Mit dem Google-Aktivierungswort hört das Mikrofon ebenfalls permanent zu.",
           "severity": "important",
           "steps": [
             { "label": "Google-App öffnen, dann Einstellungen > Google Assistant" },
             { "label": "Zu „Hey Google und Voice Match“ gehen und deaktivieren" }
           ]
+        },
+        {
+          "checkId": "samsung-keyboard-personalization",
+          "title": "Personalisierung der Samsung-Tastatur deaktivieren",
+          "risk": "Die Samsung-Tastatur kann Ihre Tippdaten an Samsung senden, um Vorschläge zu „verbessern“.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "Einstellungen der Samsung-Tastatur öffnen",
+              "intent": { "action": "android.settings.INPUT_METHOD_SETTINGS" },
+              "fallbackPath": "Einstellungen > Allgemeine Verwaltung > Samsung-Tastatur > Personalisierte Daten"
+            },
+            { "label": "„Personalisierte Daten“ deaktivieren" },
+            { "label": "Auf „Personalisierte Daten löschen“ tippen" }
+          ]
         }
       ]
     },
     {
-      "categoryId": "coloros-services",
-      "label": "ColorOS- / OxygenOS-Dienste",
-      "description": "Dienste deaktivieren, die im Hintergrund Daten erfassen oder übertragen.",
+      "categoryId": "samsung-services",
+      "label": "Samsung-Hintergrunddienste",
+      "description": "Samsung-Dienste deaktivieren, die im Hintergrund Daten erfassen oder übertragen.",
       "checks": [
         {
-          "checkId": "coloros-recommendations",
-          "title": "System-Empfehlungen deaktivieren",
-          "risk": "ColorOS, OxygenOS und Realme UI zeigen in mehreren System-Apps App- und Inhaltsempfehlungen, die auf Ihrem Nutzungsverhalten basieren.",
-          "whyItMatters": "Standardmäßig aktiv. Beim Deaktivieren verschwindet der Großteil der kontextbezogenen Werbung in der Oberfläche.",
-          "severity": "important",
-          "steps": [
-            {
-              "label": "Zusätzliche Einstellungen öffnen",
-              "intent": { "action": "android.settings.SETTINGS" },
-              "fallbackPath": "Einstellungen > Zusätzliche Einstellungen > Empfehlungen erhalten"
-            },
-            { "label": "„Empfehlungen für Apps und Inhalte erhalten“ deaktivieren" }
-          ]
-        },
-        {
-          "checkId": "coloros-app-market-personalization",
-          "title": "Personalisierte Werbung im App-Store deaktivieren",
-          "risk": "Der OPPO App Market (bzw. der Play Store bei neueren OnePlus-Geräten) zeigt gezielte Werbung auf Basis Ihres Installations- und Nutzungsverlaufs.",
-          "severity": "important",
-          "steps": [
-            {
-              "label": "Werbedienste öffnen",
-              "intent": { "action": "android.settings.SETTINGS" },
-              "fallbackPath": "Einstellungen > Zusätzliche Einstellungen > Datenschutz > Werbedienste"
-            },
-            { "label": "„Personalisierte Werbeempfehlungen“ deaktivieren" }
-          ]
-        },
-        {
-          "checkId": "coloros-smart-services",
-          "title": "Intelligente Dienste deaktivieren",
-          "risk": "Die Intelligenten Dienste („Smart Services“ / „Personalised services“) erfassen Ihren Nutzungsverlauf, um Vorschläge auf dem Startbildschirm und in Widgets zu erzeugen.",
-          "whyItMatters": "Keine funktionalen Einschränkungen bei Deaktivierung: Apps laufen normal weiter.",
-          "severity": "important",
+          "checkId": "customization-service",
+          "title": "Samsung-Personalisierungsdienst deaktivieren",
+          "risk": "Dieser Dienst erfasst Ihren Nutzungsverlauf (geöffnete Apps, Häufigkeit, Präferenzen), um Samsung-Empfehlungen zu füttern.",
+          "whyItMatters": "Auf den meisten Galaxy-Geräten standardmäßig aktiv. Keine funktionalen Einschränkungen bei Deaktivierung.",
+          "severity": "critical",
           "steps": [
             {
               "label": "Datenschutzeinstellungen öffnen",
               "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
-              "fallbackPath": "Einstellungen > Datenschutz > Berechtigungen und Dienste > Intelligente Dienste"
+              "fallbackPath": "Einstellungen > Datenschutz > Personalisierungsdienst"
             },
-            { "label": "„Intelligente Dienste“ oder „Personalisierte Dienste“ deaktivieren" }
+            { "label": "„Personalisierungsdienst“ deaktivieren" }
+          ]
+        },
+        {
+          "checkId": "samsung-push-service",
+          "title": "Samsung Push Service einschränken",
+          "risk": "Samsung Push Service hält eine permanente Verbindung zu Samsung-Servern für Benachrichtigungen seiner Apps (Galaxy Store, Samsung Pay usw.) aufrecht.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "App-Liste öffnen",
+              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
+              "fallbackPath": "Einstellungen > Apps > Samsung Push Service"
+            },
+            { "label": "Hintergrunddaten und Akkunutzung einschränken, oder deaktivieren, falls Sie keine Samsung-Apps nutzen" }
+          ]
+        },
+        {
+          "checkId": "game-optimizing-service",
+          "title": "Game Optimizing Service (GOS) deaktivieren",
+          "risk": "GOS drosselt die Leistung bei als Spiele erkannten Apps und erfasst Nutzungsdaten.",
+          "whyItMatters": "Umstritten: Samsung wurde 2022 in Südkorea wegen der GOS-Praktiken sanktioniert.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "App-Einstellungen öffnen",
+              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
+              "fallbackPath": "Einstellungen > Apps > Game Optimizing Service"
+            },
+            { "label": "Falls möglich deaktivieren, sonst Berechtigungen entziehen und App beenden erzwingen" }
           ]
         }
       ]
@@ -177,21 +204,20 @@
     {
       "categoryId": "diagnostics",
       "label": "Diagnose & Berichte",
-      "description": "Automatisches Senden von Nutzungs- und Diagnoseberichten an OPPO, OnePlus oder Realme unterbinden.",
+      "description": "Automatisches Senden von Fehler- und Diagnoseberichten an Samsung unterbinden.",
       "checks": [
         {
-          "checkId": "oppo-diagnostics",
-          "title": "Nutzer-Erfahrungsprogramm deaktivieren",
-          "risk": "Das Nutzer-Erfahrungsprogramm (ColorOS) bzw. „Join user experience program“ (OxygenOS) sendet fortlaufend Nutzungs- und Fehlerberichte mit Informationen zu Ihrem Gerät und Ihren Gewohnheiten.",
-          "whyItMatters": "OnePlus stand 2017 in der Kritik, weil diese Berichte mit Gerätekennungen verknüpft waren. Das Programm ist weiterhin standardmäßig aktiv.",
+          "checkId": "samsung-diagnostics",
+          "title": "Samsung-Diagnose deaktivieren",
+          "risk": "Samsung erfasst fortlaufend Nutzungs- und Fehlerberichte mit Informationen zu Ihrem Gerät und Ihren Gewohnheiten.",
           "severity": "important",
           "steps": [
             {
               "label": "Datenschutzeinstellungen öffnen",
               "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
-              "fallbackPath": "Einstellungen > Datenschutz > Erweitert > Nutzung und Diagnose"
+              "fallbackPath": "Einstellungen > Datenschutz > Diagnosedaten senden"
             },
-            { "label": "„Nutzung und Diagnose“ (bzw. „Nutzer-Erfahrungsprogramm“) deaktivieren" },
+            { "label": "„Diagnosedaten senden“ deaktivieren" },
             { "label": "„Nutzungsdaten senden“ deaktivieren, falls vorhanden" }
           ]
         }
@@ -211,7 +237,7 @@
             {
               "label": "Berechtigungsmanager öffnen",
               "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
-              "fallbackPath": "Einstellungen > Datenschutz > Berechtigungen und Dienste > Berechtigungsmanager"
+              "fallbackPath": "Einstellungen > Sicherheit und Datenschutz > Berechtigungsmanager"
             },
             { "label": "Jede Kategorie (Mikrofon, Kamera, Standort) durchgehen und verdächtige Apps einschränken" }
           ]

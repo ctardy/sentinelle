@@ -1,14 +1,14 @@
 {
-  "profileId": "samsung-oneui",
+  "profileId": "xiaomi",
   "language": "fr",
-  "label": "Samsung Galaxy (One UI)",
-  "manufacturer": "samsung",
+  "label": "Xiaomi (Redmi, POCO)",
+  "manufacturer": "xiaomi",
   "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
   "categories": [
     {
       "categoryId": "identite",
       "label": "Identité & publicité",
-      "description": "Empêcher le pistage publicitaire et la personnalisation par Google, Samsung et les régies tierces.",
+      "description": "Empêcher le pistage publicitaire et la personnalisation par Google, Xiaomi et les régies tierces.",
       "checks": [
         {
           "checkId": "advertising-id",
@@ -45,24 +45,24 @@
       ]
     },
     {
-      "categoryId": "samsung-account",
-      "label": "Compte Samsung",
-      "description": "Limiter le partage de données avec Samsung via votre compte.",
+      "categoryId": "xiaomi-account",
+      "label": "Compte Xiaomi",
+      "description": "Limiter le partage de données avec Xiaomi via votre compte Mi.",
       "checks": [
         {
-          "checkId": "samsung-account-personalization",
-          "title": "Désactiver la personnalisation Samsung Account",
-          "risk": "Samsung collecte votre historique d'usage pour « personnaliser » ses services (recommandations Galaxy Store, Samsung Daily, etc.).",
-          "whyItMatters": "Ce réglage est activé par défaut à la création du compte Samsung.",
+          "checkId": "mi-account-personalization",
+          "title": "Désactiver la personnalisation du compte Xiaomi",
+          "risk": "Xiaomi collecte votre historique d'usage pour « personnaliser » ses services et les recommandations publicitaires de ses applications système.",
+          "whyItMatters": "Activé par défaut à la création du compte Mi. La désactivation n'affecte ni les sauvegardes, ni Find My Device.",
           "severity": "important",
           "steps": [
             {
-              "label": "Ouvrir les paramètres Samsung Account",
-              "intent": { "action": "android.settings.SETTINGS" },
-              "fallbackPath": "Paramètres > Samsung Account > Confidentialité"
+              "label": "Ouvrir les paramètres de confidentialité",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Protection de la vie privée > Services publicitaires"
             },
-            { "label": "Désactiver « Service de personnalisation »" },
-            { "label": "Désactiver « Communications marketing » si actif" }
+            { "label": "Désactiver « Recommandations d'annonces personnalisées »" },
+            { "label": "Revenir et ouvrir « Programme d'expérience utilisateur », désactiver l'envoi automatique de données" }
           ]
         }
       ]
@@ -83,7 +83,7 @@
             {
               "label": "Ouvrir les paramètres de connexion",
               "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
-              "fallbackPath": "Paramètres > Connexions > Autres paramètres de connexion > DNS privé"
+              "fallbackPath": "Paramètres > Connexion et partage > DNS privé"
             },
             { "label": "Choisir « Nom d'hôte du fournisseur DNS privé »" },
             { "label": "Saisir le nom d'hôte recommandé selon votre pays" }
@@ -99,7 +99,7 @@
             {
               "label": "Ouvrir les paramètres de localisation",
               "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
-              "fallbackPath": "Paramètres > Localisation > Paramètres de localisation Wi-Fi/Bluetooth"
+              "fallbackPath": "Paramètres > Localisation > Recherche Wi-Fi et Bluetooth"
             },
             { "label": "Désactiver « Recherche Wi-Fi » et « Recherche Bluetooth »" }
           ]
@@ -112,91 +112,66 @@
       "description": "Empêcher l'écoute permanente et la collecte de votre frappe.",
       "checks": [
         {
-          "checkId": "bixby-voice-wake",
-          "title": "Désactiver le réveil vocal Bixby",
-          "risk": "Avec le réveil vocal activé, le micro est à l'écoute en permanence pour détecter « Hi Bixby ».",
-          "whyItMatters": "Même sans utiliser Bixby, le service peut rester actif en arrière-plan.",
-          "severity": "important",
-          "steps": [
-            { "label": "Ouvrir l'application Bixby" },
-            { "label": "Toucher l'icône menu > Paramètres > Réveil vocal" },
-            { "label": "Désactiver « Réveil vocal »" }
-          ]
-        },
-        {
           "checkId": "google-assistant-hotword",
           "title": "Désactiver « Hey Google »",
-          "risk": "Avec le mot-clé d'activation Google, le micro est aussi à l'écoute en permanence.",
+          "risk": "Avec le mot-clé d'activation, le micro est à l'écoute en permanence.",
           "severity": "important",
           "steps": [
             { "label": "Ouvrir l'application Google, puis « Paramètres » > « Assistant Google »" },
             { "label": "Aller dans « Hey Google et Voice Match » et désactiver" }
           ]
-        },
-        {
-          "checkId": "samsung-keyboard-personalization",
-          "title": "Désactiver la personnalisation du clavier Samsung",
-          "risk": "Le clavier Samsung peut envoyer vos données de frappe à Samsung pour « améliorer » les suggestions.",
-          "severity": "recommended",
-          "steps": [
-            {
-              "label": "Ouvrir les paramètres du clavier Samsung",
-              "intent": { "action": "android.settings.INPUT_METHOD_SETTINGS" },
-              "fallbackPath": "Paramètres > Gestion globale > Clavier Samsung > Données de personnalisation"
-            },
-            { "label": "Désactiver « Données de personnalisation »" },
-            { "label": "Appuyer sur « Effacer les données de personnalisation »" }
-          ]
         }
       ]
     },
     {
-      "categoryId": "samsung-services",
-      "label": "Services Samsung en arrière-plan",
-      "description": "Désactiver les services Samsung qui collectent ou transmettent des données en arrière-plan.",
+      "categoryId": "miui-services",
+      "label": "Services MIUI / HyperOS",
+      "description": "Couper les services système Xiaomi qui affichent des publicités et des recommandations dans les applications intégrées.",
       "checks": [
         {
-          "checkId": "customization-service",
-          "title": "Désactiver le Service de personnalisation Samsung",
-          "risk": "Ce service collecte votre historique d'usage (apps ouvertes, fréquence, préférences) pour alimenter les recommandations Samsung.",
-          "whyItMatters": "Activé par défaut sur la plupart des Galaxy. Aucun impact fonctionnel si désactivé.",
-          "severity": "critical",
+          "checkId": "miui-recommendations",
+          "title": "Désactiver les recommandations dans les applications système",
+          "risk": "Les applications préinstallées (Gestionnaire de fichiers, Navigateur Mi, Sécurité, Thèmes, Téléchargements) affichent par défaut des recommandations et des bannières publicitaires.",
+          "whyItMatters": "Chaque recommandation est générée à partir de votre historique d'usage local via le service MSA.",
+          "severity": "important",
           "steps": [
             {
               "label": "Ouvrir les paramètres de confidentialité",
               "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
-              "fallbackPath": "Paramètres > Confidentialité > Service de personnalisation"
+              "fallbackPath": "Paramètres > Protection de la vie privée > Autorisations spéciales > Authentification et révocation"
             },
-            { "label": "Désactiver « Service de personnalisation »" }
+            { "label": "Sélectionner « msa » et révoquer l'autorisation" },
+            { "label": "Dans chaque application système (Sécurité, Gestionnaire de fichiers, Thèmes, Navigateur Mi), ouvrir les paramètres et désactiver « Afficher les recommandations » ou « Recevoir des recommandations »" }
           ]
         },
         {
-          "checkId": "samsung-push-service",
-          "title": "Limiter Samsung Push Service",
-          "risk": "Samsung Push Service maintient une connexion permanente aux serveurs Samsung pour les notifications de leurs apps (Galaxy Store, Samsung Pay, etc.).",
+          "checkId": "miui-lockscreen-ads",
+          "title": "Désactiver le carrousel de fonds d'écran (Glance)",
+          "risk": "Le carrousel de fonds d'écran affiche sur l'écran verrouillé des contenus sponsorisés et collecte des données d'interaction.",
+          "whyItMatters": "Activé par défaut dans la plupart des régions. Le service Glance transmet des données à un partenaire tiers (InMobi).",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Paramètres > Écran de verrouillage > Carrousel de fonds d'écran"
+            },
+            { "label": "Désactiver « Carrousel de fonds d'écran » (ou « Glance pour Mi »)" }
+          ]
+        },
+        {
+          "checkId": "miui-autostart",
+          "title": "Vérifier le démarrage automatique des applications",
+          "risk": "Xiaomi autorise par défaut certaines applications à se lancer en arrière-plan au démarrage et à rester résidentes, même sans être utilisées.",
+          "whyItMatters": "Ces applications peuvent accéder au réseau et à vos capteurs sans que vous les ouvriez.",
           "severity": "recommended",
           "steps": [
             {
               "label": "Ouvrir la liste des applications",
               "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
-              "fallbackPath": "Paramètres > Applications > Samsung Push Service"
+              "fallbackPath": "Paramètres > Applications > Autorisations > Démarrage automatique en arrière-plan"
             },
-            { "label": "Restreindre les données en arrière-plan et la batterie, ou désactiver si vous n'utilisez pas d'apps Samsung" }
-          ]
-        },
-        {
-          "checkId": "game-optimizing-service",
-          "title": "Désactiver Game Optimizing Service (GOS)",
-          "risk": "GOS bride les performances de certaines applications identifiées comme des jeux et collecte des données d'usage.",
-          "whyItMatters": "Controversé : Samsung a été condamné en Corée du Sud en 2022 pour ses pratiques GOS.",
-          "severity": "recommended",
-          "steps": [
-            {
-              "label": "Ouvrir les paramètres des applications",
-              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
-              "fallbackPath": "Paramètres > Applications > Game Optimizing Service"
-            },
-            { "label": "Désactiver si l'option est disponible, sinon couper les permissions et forcer l'arrêt" }
+            { "label": "Passer en revue la liste et désactiver le démarrage automatique pour les applications qui n'en ont pas besoin" }
           ]
         }
       ]
@@ -204,21 +179,22 @@
     {
       "categoryId": "diagnostics",
       "label": "Diagnostics & rapports",
-      "description": "Couper l'envoi automatique de rapports d'erreur et de diagnostics vers Samsung.",
+      "description": "Couper l'envoi automatique de rapports d'usage et de diagnostics vers Xiaomi.",
       "checks": [
         {
-          "checkId": "samsung-diagnostics",
-          "title": "Désactiver les diagnostics Samsung",
-          "risk": "Samsung collecte en continu des rapports d'usage et d'erreur contenant des informations sur votre appareil et vos habitudes.",
+          "checkId": "xiaomi-diagnostics",
+          "title": "Désactiver les diagnostics Xiaomi",
+          "risk": "Xiaomi collecte en continu des rapports d'usage et d'erreur contenant des informations sur votre appareil et vos habitudes.",
+          "whyItMatters": "Le « Programme d'expérience utilisateur » est activé par défaut et transmet les données aux serveurs Xiaomi.",
           "severity": "important",
           "steps": [
             {
               "label": "Ouvrir les paramètres de confidentialité",
               "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
-              "fallbackPath": "Paramètres > Confidentialité > Envoyer les informations de diagnostic"
+              "fallbackPath": "Paramètres > Protection de la vie privée > Programme d'expérience utilisateur"
             },
-            { "label": "Désactiver « Envoyer les informations de diagnostic »" },
-            { "label": "Désactiver « Envoyer les données d'usage » si présent" }
+            { "label": "Désactiver « Programme d'expérience utilisateur »" },
+            { "label": "Revenir et désactiver « Envoyer les données de diagnostic automatiquement » si présent" }
           ]
         }
       ]
@@ -237,7 +213,7 @@
             {
               "label": "Ouvrir le gestionnaire d'autorisations",
               "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
-              "fallbackPath": "Paramètres > Sécurité et confidentialité > Gestionnaire d'autorisations"
+              "fallbackPath": "Paramètres > Protection de la vie privée > Gestionnaire d'autorisations"
             },
             { "label": "Passer chaque catégorie (Micro, Caméra, Position) et restreindre les apps suspectes" }
           ]

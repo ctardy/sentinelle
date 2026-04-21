@@ -1,7 +1,7 @@
 {
   "profileId": "motorola",
   "language": "fr",
-  "label": "Motorola (My UX)",
+  "label": "Motorola",
   "manufacturer": "motorola",
   "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
   "categories": [

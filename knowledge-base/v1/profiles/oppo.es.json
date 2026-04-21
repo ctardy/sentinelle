@@ -1,7 +1,7 @@
 {
-  "profileId": "oppo-coloros",
+  "profileId": "oppo",
   "language": "es",
-  "label": "OPPO / OnePlus / Realme (ColorOS / OxygenOS)",
+  "label": "OPPO (OnePlus, Realme)",
   "manufacturer": "oppo",
   "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
   "categories": [
