@@ -36,12 +36,12 @@ fun RecapScreen(
     val context = LocalContext.current
     val kb = remember { KnowledgeBaseRepository(context) }
     val prefs = remember { UserPreferencesRepository(context) }
-    val language = remember { Locale.getDefault().language.ifEmpty { "fr" } }
+    val language = remember { Locale.getDefault().language.ifEmpty { "en" } }
 
     val selection by prefs.selection.collectAsState(initial = UserSelection(null, null, null, null))
     val profile by produceState<Profile?>(initialValue = null, key1 = selection.profileId, key2 = language) {
         val id = selection.profileId ?: return@produceState
-        value = kb.loadProfile(id, language) ?: kb.loadProfile(id, "fr")
+        value = kb.loadProfile(id, language) ?: kb.loadProfile(id, "en")
     }
 
     val loaded = profile

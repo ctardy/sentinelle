@@ -35,7 +35,7 @@ fun PaceScreen(onBack: () -> Unit, onNext: () -> Unit) {
     val kb = remember { KnowledgeBaseRepository(context) }
     val prefs = remember { UserPreferencesRepository(context) }
     val scope = rememberCoroutineScope()
-    val language = remember { Locale.getDefault().language.ifEmpty { "fr" } }
+    val language = remember { Locale.getDefault().language.ifEmpty { "en" } }
 
     val selection by prefs.selection.collectAsState(initial = UserSelection(null, null, null, null))
     val profileId = selection.profileId
@@ -43,7 +43,7 @@ fun PaceScreen(onBack: () -> Unit, onNext: () -> Unit) {
 
     val profile by produceState<Profile?>(initialValue = null, key1 = profileId, key2 = language) {
         val id = profileId ?: return@produceState
-        value = kb.loadProfile(id, language) ?: kb.loadProfile(id, "fr")
+        value = kb.loadProfile(id, language) ?: kb.loadProfile(id, "en")
     }
 
     val loaded = profile

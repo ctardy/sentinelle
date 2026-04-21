@@ -52,10 +52,10 @@ fun CheckDetailScreen(
     val kb = remember { KnowledgeBaseRepository(context) }
     val completion = remember { CompletionRepository(context) }
     val scope = rememberCoroutineScope()
-    val language = remember { Locale.getDefault().language.ifEmpty { "fr" } }
+    val language = remember { Locale.getDefault().language.ifEmpty { "en" } }
 
     val profile by produceState<Profile?>(initialValue = null, key1 = profileId, key2 = language) {
-        value = kb.loadProfile(profileId, language) ?: kb.loadProfile(profileId, "fr")
+        value = kb.loadProfile(profileId, language) ?: kb.loadProfile(profileId, "en")
     }
     val dns by produceState<DnsProfile?>(initialValue = null, key1 = country) {
         value = kb.loadDns(country)

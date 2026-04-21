@@ -52,11 +52,11 @@ fun AuditScreen(
     val kb = remember { KnowledgeBaseRepository(context) }
     val completion = remember { CompletionRepository(context) }
     val prefs = remember { UserPreferencesRepository(context) }
-    val language = remember { Locale.getDefault().language.ifEmpty { "fr" } }
+    val language = remember { Locale.getDefault().language.ifEmpty { "en" } }
     val scope = rememberCoroutineScope()
 
     val profile by produceState<Profile?>(initialValue = null, key1 = profileId, key2 = language) {
-        value = kb.loadProfile(profileId, language) ?: kb.loadProfile(profileId, "fr")
+        value = kb.loadProfile(profileId, language) ?: kb.loadProfile(profileId, "en")
     }
     val completed by completion.completedCheckIds(profileId).collectAsState(initial = emptySet())
     val selection by prefs.selection.collectAsState(

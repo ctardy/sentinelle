@@ -41,12 +41,12 @@ fun DeviceScreen(onBack: () -> Unit, onNext: () -> Unit) {
     val prefs = remember { UserPreferencesRepository(context) }
     val scope = rememberCoroutineScope()
     val device = remember { DeviceDetector.detect() }
-    val language = remember { Locale.getDefault().language.ifEmpty { "fr" } }
+    val language = remember { Locale.getDefault().language.ifEmpty { "en" } }
 
     val profiles by produceState<List<Profile>>(initialValue = emptyList(), key1 = language) {
         val index = kb.loadIndex()
         value = index.profiles.mapNotNull { entry ->
-            kb.loadProfile(entry.profileId, language) ?: kb.loadProfile(entry.profileId, "fr")
+            kb.loadProfile(entry.profileId, language) ?: kb.loadProfile(entry.profileId, "en")
         }
     }
 
