@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
@@ -19,9 +21,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,6 +38,7 @@ import app.sentinelle.data.UserPreferencesRepository
 import app.sentinelle.data.UserSelection
 import app.sentinelle.domain.Audience
 import app.sentinelle.domain.Check
+import app.sentinelle.domain.KnowledgeBaseIndex
 import app.sentinelle.domain.Pace
 import app.sentinelle.domain.Profile
 import app.sentinelle.domain.adaptProfile
@@ -46,6 +51,7 @@ fun AuditScreen(
     profileId: String,
     country: String,
     onCheckClick: (categoryId: String, checkId: String) -> Unit,
+    onCountryChange: (String) -> Unit,
     onRestartWizard: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -58,6 +64,7 @@ fun AuditScreen(
     val profile by produceState<Profile?>(initialValue = null, key1 = profileId, key2 = language) {
         value = kb.loadProfile(profileId, language) ?: kb.loadProfile(profileId, "en")
     }
+    val index by produceState<KnowledgeBaseIndex?>(initialValue = null) { value = kb.loadIndex() }
     val completed by completion.completedCheckIds(profileId).collectAsState(initial = emptySet())
     val selection by prefs.selection.collectAsState(
         initial = UserSelection(null, null, null, null),
@@ -68,6 +75,8 @@ fun AuditScreen(
     val pace = selection.pace ?: Pace.Full
     val adapted = adaptProfile(loaded, audience, pace)
     val progress = computeProgress(adapted, completed)
+
+    var showCountryPicker by remember { mutableStateOf(false) }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
@@ -87,6 +96,20 @@ fun AuditScreen(
                 text = stringResource(R.string.audit_score, progress.score),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = 4.dp),
+            )
+
+            AssistChip(
+                onClick = { showCountryPicker = true },
+                label = {
+                    Text(
+                        text = stringResource(
+                            R.string.audit_country_chip,
+                            countryLabel(country),
+                        ),
+                    )
+                },
+                colors = AssistChipDefaults.assistChipColors(),
+                modifier = Modifier.padding(top = 12.dp),
             )
 
             adapted.categories.forEach { category ->
@@ -119,6 +142,24 @@ fun AuditScreen(
             ) {
                 Text(stringResource(R.string.audit_restart_wizard))
             }
+        }
+    }
+
+    if (showCountryPicker) {
+        val idx = index
+        if (idx != null) {
+            CountryPickerDialog(
+                countries = idx.dnsCountries,
+                selectedCountry = country,
+                onSelect = { newCountry ->
+                    showCountryPicker = false
+                    scope.launch {
+                        prefs.setCountry(newCountry)
+                        onCountryChange(newCountry)
+                    }
+                },
+                onDismiss = { showCountryPicker = false },
+            )
         }
     }
 }

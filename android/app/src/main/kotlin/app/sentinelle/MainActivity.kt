@@ -130,6 +130,11 @@ private fun AppNav() {
                 onCheckClick = { categoryId, checkId ->
                     nav.navigate("detail/$profileId/$country/$categoryId/$checkId")
                 },
+                onCountryChange = { newCountry ->
+                    nav.navigate("audit/$profileId/$newCountry") {
+                        popUpTo(RouteAudit) { inclusive = true }
+                    }
+                },
                 onRestartWizard = {
                     scope.launch {
                         prefs.clear()

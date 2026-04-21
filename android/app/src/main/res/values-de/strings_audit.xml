@@ -11,6 +11,8 @@
     <string name="audit_marked_done">Erledigt ✓</string>
     <string name="audit_dns_recommended">Empfohlene DNS (%1$s)</string>
     <string name="audit_not_available">Einstellungen können auf diesem Gerät nicht geöffnet werden.</string>
+    <string name="audit_country_chip">Land: %1$s</string>
+    <string name="audit_country_picker_title">Land auswählen</string>
     <string name="severity_critical">Kritisch</string>
     <string name="severity_important">Wichtig</string>
     <string name="severity_recommended">Empfohlen</string>

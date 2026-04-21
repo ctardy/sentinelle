@@ -12,17 +12,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.sentinelle.R
 import app.sentinelle.domain.Severity
+import app.sentinelle.ui.theme.SeverityCritical
+import app.sentinelle.ui.theme.SeverityImportant
+import app.sentinelle.ui.theme.SeverityRecommended
 
 @Composable
 fun SeverityBadge(severity: Severity, modifier: Modifier = Modifier) {
-    val (label, bg, fg) = when (severity) {
-        Severity.Critical -> Triple(stringResource(R.string.severity_critical), Color(0xFFB91C1C), Color.White)
-        Severity.Important -> Triple(stringResource(R.string.severity_important), Color(0xFFD97706), Color.White)
-        Severity.Recommended -> Triple(stringResource(R.string.severity_recommended), Color(0xFF475569), Color.White)
+    val bg = when (severity) {
+        Severity.Critical -> SeverityCritical
+        Severity.Important -> SeverityImportant
+        Severity.Recommended -> SeverityRecommended
+    }
+    val label = when (severity) {
+        Severity.Critical -> stringResource(R.string.severity_critical)
+        Severity.Important -> stringResource(R.string.severity_important)
+        Severity.Recommended -> stringResource(R.string.severity_recommended)
     }
     Text(
         text = label,
-        color = fg,
+        color = Color(0xFF0F1419),
         style = MaterialTheme.typography.labelSmall,
         modifier = modifier
             .background(bg, RoundedCornerShape(6.dp))
