@@ -1,0 +1,222 @@
+{
+  "profileId": "oppo-coloros",
+  "language": "en",
+  "label": "OPPO / OnePlus / Realme (ColorOS / OxygenOS)",
+  "manufacturer": "oppo",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identity & advertising",
+      "description": "Prevent advertising tracking and profiling by Google, OPPO, and third-party ad networks.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Delete the advertising ID",
+          "risk": "A unique identifier used by ad networks to build your profile across all apps.",
+          "whyItMatters": "Since Android 12, you can fully delete this ID instead of just resetting it.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Open Google settings",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Settings > Google > All services > Ads"
+            },
+            { "label": "Tap \"Delete advertising ID\"" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Turn off Google personalized ads",
+          "risk": "Without this step, Google uses your history to target ads across its services.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open adssettings.google.com in your browser",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "Turn off \"Personalized ads\"" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "heytap-account",
+      "label": "HeyTap / OPPO / OnePlus account",
+      "description": "Limit data sharing with OPPO, OnePlus, or Realme through your account.",
+      "checks": [
+        {
+          "checkId": "heytap-account-personalization",
+          "title": "Turn off HeyTap / OPPO account personalization",
+          "risk": "OPPO, OnePlus, and Realme share a unified account (HeyTap / OPPO Account) that collects your usage history to \"personalize\" services and target ads.",
+          "whyItMatters": "Enabled by default at account creation. On OnePlus, the OPPO merger means the same settings apply from OxygenOS 13 onwards.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open account settings",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Settings > HeyTap (or OPPO / OnePlus) Account > Privacy"
+            },
+            { "label": "Turn off \"Personalized recommendations\"" },
+            { "label": "Turn off \"Marketing communications\" if enabled" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Network & sovereign DNS",
+      "description": "Encrypt your DNS queries and choose an operator that does not sell your data.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Enable a sovereign private DNS",
+          "risk": "Without private DNS, your ISP sees every site you visit, even over HTTPS.",
+          "whyItMatters": "Private DNS (DoT) encrypts these queries and routes them to an operator you choose.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Open connection settings",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Settings > Connection & sharing > Private DNS"
+            },
+            { "label": "Select \"Private DNS provider hostname\"" },
+            { "label": "Enter the recommended hostname for your country" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Disable always-on Wi-Fi/Bluetooth scanning",
+          "risk": "Android continuously scans Wi-Fi and Bluetooth networks to improve location, even when you don't use them.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open location settings",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Settings > Location > Location services > Wi-Fi/Bluetooth scanning"
+            },
+            { "label": "Turn off \"Wi-Fi scanning\" and \"Bluetooth scanning\"" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Voice assistants",
+      "description": "Prevent permanent microphone listening by voice assistants.",
+      "checks": [
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "Turn off \"Hey Google\"",
+          "risk": "With the hotword enabled, the microphone is always listening.",
+          "severity": "important",
+          "steps": [
+            { "label": "Open the Google app, then Settings > Google Assistant" },
+            { "label": "Go to \"Hey Google & Voice Match\" and turn it off" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "coloros-services",
+      "label": "ColorOS / OxygenOS services",
+      "description": "Disable services that collect or transmit data in the background.",
+      "checks": [
+        {
+          "checkId": "coloros-recommendations",
+          "title": "Turn off system content recommendations",
+          "risk": "ColorOS, OxygenOS, and Realme UI surface app and content recommendations driven by your usage across several system apps.",
+          "whyItMatters": "Enabled by default. Turning this off removes most contextual ads in the UI.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open additional settings",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Settings > Additional settings > Get recommendations"
+            },
+            { "label": "Turn off \"Receive app and content recommendations\"" }
+          ]
+        },
+        {
+          "checkId": "coloros-app-market-personalization",
+          "title": "Turn off app store personalized ads",
+          "risk": "The OPPO App Market (or Play Store on recent OnePlus devices) shows targeted ads based on your install and usage history.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open ad services",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Settings > Additional settings > Privacy > Ad services"
+            },
+            { "label": "Turn off \"Personalized ad recommendations\"" }
+          ]
+        },
+        {
+          "checkId": "coloros-smart-services",
+          "title": "Turn off Smart Services",
+          "risk": "Smart Services (\"Personalised services\") collect your usage history to drive home screen suggestions and widget recommendations.",
+          "whyItMatters": "No functional impact when disabled: apps keep working normally.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open privacy settings",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Privacy > Permissions and services > Smart Services"
+            },
+            { "label": "Turn off \"Smart Services\" or \"Personalised services\"" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "diagnostics",
+      "label": "Diagnostics & reports",
+      "description": "Stop automatic usage and diagnostic reports from being sent to OPPO, OnePlus, or Realme.",
+      "checks": [
+        {
+          "checkId": "oppo-diagnostics",
+          "title": "Turn off the User Experience Program",
+          "risk": "The User Experience Program (ColorOS) and \"Join user experience program\" (OxygenOS) continuously send usage and error reports containing information about your device and habits.",
+          "whyItMatters": "OnePlus was criticized in 2017 for linking these reports to device identifiers. The program remains enabled by default.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open privacy settings",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Privacy > Advanced > Usage and diagnostics"
+            },
+            { "label": "Turn off \"Usage and diagnostics\" (or \"User Experience Program\")" },
+            { "label": "Turn off \"Send usage data\" if present" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "App permissions",
+      "description": "Check that no app has unjustified access to your microphone, camera, or location.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Audit sensitive permissions",
+          "risk": "Some apps keep microphone, camera, or background location access far beyond what they need.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Open the permission manager",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Privacy > Permissions and services > Permission manager"
+            },
+            { "label": "Go through each category (Microphone, Camera, Location) and restrict suspicious apps" }
+          ]
+        }
+      ]
+    }
+  ]
+}

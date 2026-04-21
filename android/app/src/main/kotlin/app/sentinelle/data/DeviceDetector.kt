@@ -21,6 +21,10 @@ object DeviceDetector {
 
     fun suggestProfile(manufacturer: String): String = when (manufacturer.lowercase()) {
         "samsung" -> "samsung-oneui"
+        "xiaomi", "redmi", "poco" -> "xiaomi-hyperos"
+        "oppo", "oneplus", "realme" -> "oppo-coloros"
+        "motorola", "lenovo" -> "motorola"
+        "honor" -> "honor-magicos"
         else -> "android-generic"
     }
 }

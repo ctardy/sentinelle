@@ -1,0 +1,222 @@
+{
+  "profileId": "oppo-coloros",
+  "language": "es",
+  "label": "OPPO / OnePlus / Realme (ColorOS / OxygenOS)",
+  "manufacturer": "oppo",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identidad y publicidad",
+      "description": "Evitar el rastreo publicitario y la elaboración de perfiles por Google, OPPO y las redes de anuncios de terceros.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Eliminar el identificador publicitario",
+          "risk": "Un identificador único utilizado por las redes publicitarias para construir su perfil a través de todas las aplicaciones.",
+          "whyItMatters": "Desde Android 12, puede eliminar por completo este identificador en lugar de solo restablecerlo.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Abrir los ajustes de Google",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Ajustes > Google > Todos los servicios > Anuncios"
+            },
+            { "label": "Pulsar «Eliminar ID publicitario»" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Desactivar la personalización de anuncios de Google",
+          "risk": "Sin este paso, Google utiliza su historial para mostrar anuncios segmentados en sus servicios.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Abrir adssettings.google.com en su navegador",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "Desactivar «Anuncios personalizados»" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "heytap-account",
+      "label": "Cuenta HeyTap / OPPO / OnePlus",
+      "description": "Limitar el intercambio de datos con OPPO, OnePlus o Realme a través de su cuenta.",
+      "checks": [
+        {
+          "checkId": "heytap-account-personalization",
+          "title": "Desactivar la personalización de la cuenta HeyTap / OPPO",
+          "risk": "OPPO, OnePlus y Realme comparten una cuenta unificada (HeyTap / OPPO Account) que recopila su historial de uso para «personalizar» sus servicios y segmentar la publicidad.",
+          "whyItMatters": "Activado por defecto al crear la cuenta. En OnePlus, la fusión con OPPO hace que los mismos ajustes se apliquen desde OxygenOS 13.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Abrir los ajustes de la cuenta",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Ajustes > Cuenta HeyTap (u OPPO / OnePlus) > Privacidad"
+            },
+            { "label": "Desactivar «Recomendaciones personalizadas»" },
+            { "label": "Desactivar «Comunicaciones de marketing» si está activo" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Red y DNS soberano",
+      "description": "Cifrar sus consultas DNS y elegir un operador que no venda sus datos.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Activar un DNS privado soberano",
+          "risk": "Sin DNS privado, su proveedor de acceso ve cada sitio que visita, incluso a través de HTTPS.",
+          "whyItMatters": "El DNS privado (DoT) cifra estas consultas y las envía a un operador elegido por usted.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Abrir los ajustes de conexión",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Ajustes > Conexión y uso compartido > DNS privado"
+            },
+            { "label": "Elegir «Nombre de host del proveedor de DNS privado»" },
+            { "label": "Introducir el nombre de host recomendado según su país" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Desactivar la búsqueda permanente de Wi-Fi y Bluetooth",
+          "risk": "Android escanea continuamente las redes Wi-Fi y Bluetooth para mejorar la localización, incluso cuando no las utiliza.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Abrir los ajustes de ubicación",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Ajustes > Ubicación > Servicios de ubicación > Búsqueda Wi-Fi/Bluetooth"
+            },
+            { "label": "Desactivar «Búsqueda de Wi-Fi» y «Búsqueda de Bluetooth»" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Asistentes de voz",
+      "description": "Evitar la escucha permanente del micrófono por los asistentes de voz.",
+      "checks": [
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "Desactivar «Hey Google»",
+          "risk": "Con la palabra de activación, el micrófono escucha de forma permanente.",
+          "severity": "important",
+          "steps": [
+            { "label": "Abrir la aplicación Google y pulsar «Ajustes» > «Asistente de Google»" },
+            { "label": "Ir a «Hey Google y Voice Match» y desactivar" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "coloros-services",
+      "label": "Servicios ColorOS / OxygenOS",
+      "description": "Desactivar los servicios que recopilan o transmiten datos en segundo plano.",
+      "checks": [
+        {
+          "checkId": "coloros-recommendations",
+          "title": "Desactivar las recomendaciones de contenido del sistema",
+          "risk": "ColorOS, OxygenOS y Realme UI muestran recomendaciones de aplicaciones y contenidos basadas en su uso en varias aplicaciones del sistema.",
+          "whyItMatters": "Activado por defecto. Al desactivarlo desaparece la mayoría de la publicidad contextual en la interfaz.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Abrir los ajustes adicionales",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Ajustes > Ajustes adicionales > Recibir recomendaciones"
+            },
+            { "label": "Desactivar «Recibir recomendaciones de aplicaciones y contenidos»" }
+          ]
+        },
+        {
+          "checkId": "coloros-app-market-personalization",
+          "title": "Desactivar los anuncios personalizados de la tienda de aplicaciones",
+          "risk": "App Market de OPPO (o Play Store en los OnePlus recientes) muestra anuncios segmentados a partir de su historial de instalación y uso.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Abrir los servicios publicitarios",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Ajustes > Ajustes adicionales > Privacidad > Servicios publicitarios"
+            },
+            { "label": "Desactivar «Recomendaciones publicitarias personalizadas»" }
+          ]
+        },
+        {
+          "checkId": "coloros-smart-services",
+          "title": "Desactivar los Servicios inteligentes",
+          "risk": "Los Servicios inteligentes («Smart Services» / «Personalised services») recopilan su historial de uso para alimentar las sugerencias de la pantalla de inicio y los widgets.",
+          "whyItMatters": "Sin impacto funcional al desactivarlo: las aplicaciones siguen funcionando con normalidad.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Abrir los ajustes de privacidad",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Ajustes > Privacidad > Permisos y servicios > Servicios inteligentes"
+            },
+            { "label": "Desactivar «Servicios inteligentes» o «Servicios personalizados»" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "diagnostics",
+      "label": "Diagnósticos e informes",
+      "description": "Detener el envío automático de informes de uso y diagnósticos a OPPO, OnePlus o Realme.",
+      "checks": [
+        {
+          "checkId": "oppo-diagnostics",
+          "title": "Desactivar el Programa de experiencia de usuario",
+          "risk": "El Programa de experiencia de usuario (ColorOS) y «Join user experience program» (OxygenOS) envían continuamente informes de uso y errores con información sobre su dispositivo y sus hábitos.",
+          "whyItMatters": "OnePlus fue criticado en 2017 por vincular estos informes a identificadores de dispositivo. El programa sigue activado por defecto.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Abrir los ajustes de privacidad",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Ajustes > Privacidad > Avanzado > Uso y diagnóstico"
+            },
+            { "label": "Desactivar «Uso y diagnóstico» (o «Programa de experiencia de usuario»)" },
+            { "label": "Desactivar «Enviar datos de uso» si aparece" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "Permisos de las aplicaciones",
+      "description": "Comprobar que ninguna aplicación tenga acceso injustificado a su micrófono, cámara o ubicación.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Auditar los permisos sensibles",
+          "risk": "Algunas aplicaciones mantienen acceso al micrófono, a la cámara o a su ubicación en segundo plano mucho más allá de lo necesario.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Abrir el gestor de permisos",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Ajustes > Privacidad > Permisos y servicios > Gestor de permisos"
+            },
+            { "label": "Revisar cada categoría (Micrófono, Cámara, Ubicación) y restringir las aplicaciones sospechosas" }
+          ]
+        }
+      ]
+    }
+  ]
+}

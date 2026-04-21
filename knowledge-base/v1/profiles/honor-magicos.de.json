@@ -1,0 +1,209 @@
+{
+  "profileId": "honor-magicos",
+  "language": "de",
+  "label": "Honor (MagicOS)",
+  "manufacturer": "honor",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identität & Werbung",
+      "description": "Werbetracking und Personalisierung durch Google, Honor und Drittanbieter-Werbenetzwerke verhindern.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Werbe-ID löschen",
+          "risk": "Eine eindeutige Kennung, die von Werbenetzwerken verfolgt wird, um Ihr Profil über alle Apps hinweg aufzubauen.",
+          "whyItMatters": "Seit Android 12 können Sie diese ID vollständig löschen, statt sie nur zurückzusetzen.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Google-Einstellungen öffnen",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Einstellungen > Google > Alle Dienste > Anzeigen"
+            },
+            { "label": "Auf „Werbe-ID löschen\" tippen" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Personalisierte Google-Anzeigen deaktivieren",
+          "risk": "Ohne diesen Schritt nutzt Google Ihren Verlauf, um die in seinen Diensten angezeigte Werbung zu personalisieren.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "adssettings.google.com im Browser aufrufen",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "„Personalisierte Werbung\" deaktivieren" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "honor-account",
+      "label": "Honor-Konto",
+      "description": "Datenaustausch mit Honor über Ihr Konto und seine verknüpften Dienste einschränken.",
+      "checks": [
+        {
+          "checkId": "honor-id-personalization",
+          "title": "Honor-ID-Personalisierung deaktivieren",
+          "risk": "Honor nutzt Ihren Nutzungsverlauf und die mit Ihrer Honor-ID verknüpften Daten, um seine Dienste und Empfehlungen zu personalisieren.",
+          "whyItMatters": "Diese Optionen sind bei der Erstellung des Honor-Kontos in der Regel standardmäßig aktiviert.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Einstellungen öffnen",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Einstellungen > Honor-ID > Datenschutz und personalisierter Dienst"
+            },
+            { "label": "„Personalisierungsdienst\" deaktivieren" },
+            { "label": "„Marketingnachrichten\" oder „Empfehlungen\" deaktivieren, falls aktiv" }
+          ]
+        },
+        {
+          "checkId": "honor-appgallery-personalization",
+          "title": "Empfehlungen in AppGallery / Game Center deaktivieren",
+          "risk": "AppGallery und Game Center sammeln Ihren Installations- und Nutzungsverlauf, um personalisierte Empfehlungen anzuzeigen.",
+          "whyItMatters": "Auf Honor-Geräten nach 2020 mit Google-Diensten kann die Honor-AppGallery neben dem Play Store existieren; beide müssen separat konfiguriert werden.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "AppGallery (oder Game Center) öffnen",
+              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
+              "fallbackPath": "AppGallery > Ich > Einstellungen > Personalisierte Empfehlungen"
+            },
+            { "label": "„Personalisierte Empfehlungen\" deaktivieren" },
+            { "label": "Den Vorgang im Game Center wiederholen, falls vorhanden" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Netzwerk & souveränes DNS",
+      "description": "Ihre DNS-Anfragen verschlüsseln und einen Betreiber wählen, der Ihre Daten nicht weiterverkauft.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Ein souveränes privates DNS aktivieren",
+          "risk": "Ohne privates DNS sieht Ihr Internetanbieter jede Website, die Sie besuchen, auch über HTTPS.",
+          "whyItMatters": "Privates DNS (DoT) verschlüsselt diese Anfragen und sendet sie an einen Betreiber Ihrer Wahl.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Drahtlos- und Netzwerkeinstellungen öffnen",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Einstellungen > Mobilfunknetz > Mehr > Privates DNS"
+            },
+            { "label": "„Hostname des privaten DNS-Anbieters\" auswählen" },
+            { "label": "Den für Ihr Land empfohlenen Hostnamen eingeben" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Dauerhaften Wi-Fi-/Bluetooth-Scan deaktivieren",
+          "risk": "Android scannt Wi-Fi- und Bluetooth-Netzwerke fortlaufend, um die Standortbestimmung zu verbessern, auch wenn Sie sie nicht verwenden.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Standort-Einstellungen öffnen",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Einstellungen > Standort > Standortdienste"
+            },
+            { "label": "„WLAN-Suche\" und „Bluetooth-Suche\" deaktivieren" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Sprachassistenten & Tastatur",
+      "description": "Dauerhaftes Zuhören und das Erfassen Ihrer Tastatureingaben verhindern.",
+      "checks": [
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "„Hey Google\" deaktivieren",
+          "risk": "Mit dem Google-Aktivierungswort hört das Mikrofon dauerhaft zu.",
+          "severity": "important",
+          "steps": [
+            { "label": "Google-App öffnen, dann „Einstellungen\" > „Google Assistant\"" },
+            { "label": "Zu „Hey Google und Voice Match\" gehen und deaktivieren" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "magicos-services",
+      "label": "MagicOS-Dienste",
+      "description": "MagicOS-Systemdienste deaktivieren, die Inhalte personalisieren oder empfehlen.",
+      "checks": [
+        {
+          "checkId": "magicos-recommendations",
+          "title": "MagicOS-Systemempfehlungen deaktivieren",
+          "risk": "MagicOS zeigt auf Basis Ihres Nutzungsverlaufs personalisierte Vorschläge und Empfehlungen auf dem Startbildschirm, in der Honor-Suche, in Honor Health und in den Themes an.",
+          "whyItMatters": "Diese Empfehlungen sind standardmäßig aktiviert und können gesponserte Inhalte enthalten.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Datenschutzeinstellungen öffnen",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Einstellungen > Datenschutz > Personalisierte Empfehlungen"
+            },
+            { "label": "„Personalisierte Empfehlungen\" deaktivieren" },
+            { "label": "In der Honor-Suche auf das Einstellungs-Symbol tippen und Vorschläge deaktivieren" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "diagnostics",
+      "label": "Diagnose & Berichte",
+      "description": "Die automatische Übertragung von Nutzungs- und Diagnoseberichten an Honor unterbinden.",
+      "checks": [
+        {
+          "checkId": "honor-diagnostics",
+          "title": "Honor-Diagnose deaktivieren",
+          "risk": "Honor sammelt Nutzungs- und Fehlerberichte mit Informationen zu Ihrem Gerät und Ihren Gewohnheiten, um seine Dienste zu „verbessern\".",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Datenschutzeinstellungen öffnen",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Einstellungen > Datenschutz > Diagnose und Verbesserungen"
+            },
+            { "label": "„Am Programm zur Verbesserung der Benutzererfahrung teilnehmen\" deaktivieren" },
+            { "label": "„Detaillierte Daten\" deaktivieren, falls die Option vorhanden ist" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "App-Berechtigungen",
+      "description": "Prüfen, dass keine App ungerechtfertigten Zugriff auf Ihr Mikrofon, Ihre Kamera oder Ihren Standort hat.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Sensible Berechtigungen prüfen",
+          "risk": "Einige Apps behalten den Zugriff auf Mikrofon, Kamera oder Ihren Standort im Hintergrund weit über das Notwendige hinaus.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Berechtigungs-Manager öffnen",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Einstellungen > Datenschutz > Berechtigungsmanager"
+            },
+            { "label": "Jede Kategorie (Mikrofon, Kamera, Standort) durchgehen und verdächtige Apps einschränken" }
+          ]
+        }
+      ]
+    }
+  ]
+}

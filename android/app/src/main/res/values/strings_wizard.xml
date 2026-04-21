@@ -32,6 +32,11 @@
     <string name="device_confirm">That\'s correct</string>
     <string name="device_change">Change</string>
     <string name="device_pick_manufacturer">Pick my manufacturer</string>
+    <string name="device_title_audit_other">Which phone are you auditing?</string>
+    <string name="device_hint_audit_other">Pick the profile that matches the phone you want to audit (it doesn\'t have to be the one you\'re holding).</string>
+    <string name="device_this_phone_badge">This phone</string>
+    <string name="device_audit_another">Audit another phone</string>
+    <string name="device_hide_picker">Hide list</string>
 
     <string name="country_title">Your country</string>
     <string name="country_subtitle">Tailors the recommended DNS. This does not change the app language.</string>

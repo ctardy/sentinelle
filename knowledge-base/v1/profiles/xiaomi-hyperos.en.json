@@ -1,0 +1,224 @@
+{
+  "profileId": "xiaomi-hyperos",
+  "language": "en",
+  "label": "Xiaomi (HyperOS / MIUI)",
+  "manufacturer": "xiaomi",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identity & advertising",
+      "description": "Prevent ad tracking and personalization by Google, Xiaomi and third-party ad networks.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Delete the advertising ID",
+          "risk": "A unique identifier tracked by ad networks to build your profile across all apps.",
+          "whyItMatters": "Since Android 12, you can fully delete this identifier rather than just reset it.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Open Google settings",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Settings > Google > All services > Ads"
+            },
+            { "label": "Tap \"Delete advertising ID\"" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Turn off Google personalized ads",
+          "risk": "Without this step, Google uses your history to target ads shown across its services.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Visit adssettings.google.com in your browser",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "Turn off \"Personalized ads\"" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "xiaomi-account",
+      "label": "Xiaomi Account",
+      "description": "Limit data sharing with Xiaomi through your Mi account.",
+      "checks": [
+        {
+          "checkId": "mi-account-personalization",
+          "title": "Turn off Xiaomi Account personalization",
+          "risk": "Xiaomi collects your usage history to \"personalize\" its services and ad recommendations inside its system apps.",
+          "whyItMatters": "Enabled by default when you create a Mi Account. Turning it off does not affect backups or Find My Device.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open privacy settings",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Privacy protection > Ad services"
+            },
+            { "label": "Turn off \"Personalized ad recommendations\"" },
+            { "label": "Go back, open \"User Experience Program\" and turn off automatic data sending" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Network & sovereign DNS",
+      "description": "Encrypt your DNS queries and choose a provider that does not resell your data.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Enable a sovereign private DNS",
+          "risk": "Without private DNS, your ISP sees every site you visit, even over HTTPS.",
+          "whyItMatters": "Private DNS (DoT) encrypts these queries and sends them to a provider you choose.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Open connection settings",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Settings > Connection & sharing > Private DNS"
+            },
+            { "label": "Choose \"Private DNS provider hostname\"" },
+            { "label": "Enter the hostname recommended for your country" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Turn off permanent Wi-Fi/Bluetooth scanning",
+          "risk": "Android continuously scans Wi-Fi and Bluetooth networks to improve location, even when you are not using it.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open location settings",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Settings > Location > Wi-Fi and Bluetooth scanning"
+            },
+            { "label": "Turn off \"Wi-Fi scanning\" and \"Bluetooth scanning\"" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Voice assistants & keyboard",
+      "description": "Prevent always-on listening and keystroke collection.",
+      "checks": [
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "Turn off \"Hey Google\"",
+          "risk": "With the hotword enabled, the microphone is always listening.",
+          "severity": "important",
+          "steps": [
+            { "label": "Open the Google app, then \"Settings\" > \"Google Assistant\"" },
+            { "label": "Go to \"Hey Google & Voice Match\" and turn it off" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "miui-services",
+      "label": "MIUI / HyperOS services",
+      "description": "Disable Xiaomi system services that display ads and recommendations inside built-in apps.",
+      "checks": [
+        {
+          "checkId": "miui-recommendations",
+          "title": "Turn off recommendations in system apps",
+          "risk": "Pre-installed apps (File Manager, Mi Browser, Security, Themes, Downloads) show ads and recommendations by default.",
+          "whyItMatters": "Each recommendation is generated from your local usage history by the MSA service.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open privacy settings",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Privacy protection > Special permissions > Authorization and revocation"
+            },
+            { "label": "Select \"msa\" and revoke the authorization" },
+            { "label": "In each system app (Security, File Manager, Themes, Mi Browser), open its settings and turn off \"Show recommendations\" or \"Receive recommendations\"" }
+          ]
+        },
+        {
+          "checkId": "miui-lockscreen-ads",
+          "title": "Turn off Wallpaper Carousel (Glance)",
+          "risk": "Wallpaper Carousel shows sponsored content on the lock screen and collects interaction data.",
+          "whyItMatters": "Enabled by default in most regions. The Glance service shares data with a third-party partner (InMobi).",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open settings",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Settings > Lock screen > Wallpaper Carousel"
+            },
+            { "label": "Turn off \"Wallpaper Carousel\" (or \"Glance for Mi\")" }
+          ]
+        },
+        {
+          "checkId": "miui-autostart",
+          "title": "Review app autostart permissions",
+          "risk": "Xiaomi allows certain apps to launch in the background at boot and stay resident by default, even when unused.",
+          "whyItMatters": "These apps can reach the network and your sensors without you opening them.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "Open the app list",
+              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
+              "fallbackPath": "Settings > Apps > Permissions > Autostart"
+            },
+            { "label": "Review the list and turn off autostart for apps that do not need it" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "diagnostics",
+      "label": "Diagnostics & reports",
+      "description": "Stop automatic sending of usage reports and diagnostics to Xiaomi.",
+      "checks": [
+        {
+          "checkId": "xiaomi-diagnostics",
+          "title": "Turn off Xiaomi diagnostics",
+          "risk": "Xiaomi continuously collects usage and error reports containing information about your device and habits.",
+          "whyItMatters": "The \"User Experience Program\" is enabled by default and sends data to Xiaomi servers.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Open privacy settings",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Privacy protection > User Experience Program"
+            },
+            { "label": "Turn off \"User Experience Program\"" },
+            { "label": "Go back and turn off \"Send diagnostic data automatically\" if present" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "App permissions",
+      "description": "Make sure no app has unjustified access to your microphone, camera or location.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Audit sensitive permissions",
+          "risk": "Some apps keep access to the microphone, camera or location in the background far beyond what is necessary.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Open the permission manager",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Settings > Privacy protection > Permission manager"
+            },
+            { "label": "Go through each category (Microphone, Camera, Location) and restrict suspicious apps" }
+          ]
+        }
+      ]
+    }
+  ]
+}

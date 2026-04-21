@@ -1,0 +1,162 @@
+{
+  "profileId": "motorola",
+  "language": "fr",
+  "label": "Motorola (My UX)",
+  "manufacturer": "motorola",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identité & publicité",
+      "description": "Empêcher le pistage publicitaire et la personnalisation par Google et les régies tierces.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Supprimer l'identifiant publicitaire",
+          "risk": "Un identifiant unique suivi par les régies publicitaires pour construire votre profil sur toutes les applications.",
+          "whyItMatters": "Depuis Android 12, vous pouvez supprimer complètement cet identifiant plutôt que simplement le réinitialiser.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres Google",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Paramètres > Google > Tous les services > Annonces"
+            },
+            { "label": "Appuyer sur « Supprimer l'ID publicitaire »" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Désactiver la personnalisation des annonces Google",
+          "risk": "Sans cette étape, Google utilise votre historique pour cibler les publicités affichées sur vos services.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Se rendre sur adssettings.google.com depuis votre navigateur",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "Désactiver « Annonces personnalisées »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Réseau & DNS souverain",
+      "description": "Chiffrer vos requêtes DNS et choisir un opérateur qui ne revend pas vos données.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Activer un DNS privé souverain",
+          "risk": "Sans DNS privé, votre fournisseur d'accès voit chaque site que vous consultez, même sur HTTPS.",
+          "whyItMatters": "Le DNS privé (DoT) chiffre ces requêtes et les envoie à un opérateur que vous choisissez.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres réseau",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Paramètres > Réseau et internet > DNS privé"
+            },
+            { "label": "Choisir « Nom d'hôte du fournisseur DNS privé »" },
+            { "label": "Saisir le nom d'hôte recommandé selon votre pays" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Désactiver la recherche Wi-Fi/Bluetooth permanente",
+          "risk": "Android scanne les réseaux Wi-Fi et Bluetooth en continu pour améliorer la localisation, même quand vous ne l'utilisez pas.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de localisation",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Paramètres > Localisation > Services de localisation"
+            },
+            { "label": "Désactiver « Recherche Wi-Fi » et « Recherche Bluetooth »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Assistants vocaux",
+      "description": "Empêcher l'écoute permanente du microphone.",
+      "checks": [
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "Désactiver « Hey Google »",
+          "risk": "Avec le mot-clé d'activation, le micro est à l'écoute en permanence.",
+          "severity": "important",
+          "steps": [
+            { "label": "Ouvrir l'application Google, puis « Paramètres » > « Assistant Google »" },
+            { "label": "Aller dans « Hey Google et Voice Match » et désactiver" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "motorola-services",
+      "label": "Services Motorola",
+      "description": "Limiter la collecte de données par Motorola et Lenovo.",
+      "checks": [
+        {
+          "checkId": "motorola-services-checkin",
+          "title": "Désactiver le partage de données avec Motorola",
+          "risk": "Motorola et sa maison-mère Lenovo collectent des informations d'usage de votre appareil via les options « Enhanced Device Support » et « Help Improve » activées par défaut.",
+          "whyItMatters": "Ces options envoient régulièrement des rapports sur vos usages aux serveurs Motorola/Lenovo, même lorsque vous n'utilisez pas d'applications Motorola.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres système",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Paramètres > Système > Enhanced Device Support"
+            },
+            { "label": "Désactiver « Enhanced Device Support »" },
+            { "label": "Chercher « Help Improve » dans les paramètres et désactiver toutes les options trouvées" }
+          ]
+        },
+        {
+          "checkId": "motorola-privacy-preferences",
+          "title": "Vérifier les préférences Moto Secure",
+          "risk": "L'application Moto Secure regroupe plusieurs réglages de confidentialité Motorola (tableau de bord, permissions, réseau) dont certains peuvent partager des données avec Motorola.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir Sécurité et confidentialité",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Sécurité et confidentialité > Plus de sécurité et confidentialité"
+            },
+            { "label": "Parcourir les sections Moto Secure et désactiver chaque partage de données non souhaité" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "Permissions des applications",
+      "description": "Vérifier qu'aucune application n'a un accès injustifié à votre micro, caméra ou position.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Auditer les permissions sensibles",
+          "risk": "Certaines applications gardent l'accès au micro, à la caméra ou à votre position en arrière-plan bien au-delà de ce qui est nécessaire.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Ouvrir le gestionnaire d'autorisations",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Sécurité et confidentialité > Confidentialité > Gestionnaire d'autorisations"
+            },
+            { "label": "Passer chaque catégorie (Micro, Caméra, Position) et restreindre les apps suspectes" }
+          ]
+        }
+      ]
+    }
+  ]
+}

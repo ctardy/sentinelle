@@ -32,6 +32,11 @@
     <string name="device_confirm">Das stimmt</string>
     <string name="device_change">Ändern</string>
     <string name="device_pick_manufacturer">Meinen Hersteller wählen</string>
+    <string name="device_title_audit_other">Welches Telefon möchten Sie prüfen?</string>
+    <string name="device_hint_audit_other">Wählen Sie das Profil des zu prüfenden Telefons (nicht unbedingt das in Ihrer Hand).</string>
+    <string name="device_this_phone_badge">Dieses Telefon</string>
+    <string name="device_audit_another">Anderes Telefon prüfen</string>
+    <string name="device_hide_picker">Liste ausblenden</string>
 
     <string name="country_title">Ihr Land</string>
     <string name="country_subtitle">Passt die empfohlenen DNS an. Die App-Sprache ändert sich nicht.</string>

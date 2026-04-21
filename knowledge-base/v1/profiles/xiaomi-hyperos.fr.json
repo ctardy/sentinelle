@@ -1,0 +1,224 @@
+{
+  "profileId": "xiaomi-hyperos",
+  "language": "fr",
+  "label": "Xiaomi (HyperOS / MIUI)",
+  "manufacturer": "xiaomi",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identité & publicité",
+      "description": "Empêcher le pistage publicitaire et la personnalisation par Google, Xiaomi et les régies tierces.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Supprimer l'identifiant publicitaire",
+          "risk": "Un identifiant unique suivi par les régies publicitaires pour construire votre profil sur toutes les applications.",
+          "whyItMatters": "Depuis Android 12, vous pouvez supprimer complètement cet identifiant plutôt que simplement le réinitialiser.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres Google",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Paramètres > Google > Tous les services > Annonces"
+            },
+            { "label": "Appuyer sur « Supprimer l'ID publicitaire »" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Désactiver la personnalisation des annonces Google",
+          "risk": "Sans cette étape, Google utilise votre historique pour cibler les publicités affichées sur vos services.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Se rendre sur adssettings.google.com depuis votre navigateur",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "Désactiver « Annonces personnalisées »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "xiaomi-account",
+      "label": "Compte Xiaomi",
+      "description": "Limiter le partage de données avec Xiaomi via votre compte Mi.",
+      "checks": [
+        {
+          "checkId": "mi-account-personalization",
+          "title": "Désactiver la personnalisation du compte Xiaomi",
+          "risk": "Xiaomi collecte votre historique d'usage pour « personnaliser » ses services et les recommandations publicitaires de ses applications système.",
+          "whyItMatters": "Activé par défaut à la création du compte Mi. La désactivation n'affecte ni les sauvegardes, ni Find My Device.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de confidentialité",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Protection de la vie privée > Services publicitaires"
+            },
+            { "label": "Désactiver « Recommandations d'annonces personnalisées »" },
+            { "label": "Revenir et ouvrir « Programme d'expérience utilisateur », désactiver l'envoi automatique de données" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Réseau & DNS souverain",
+      "description": "Chiffrer vos requêtes DNS et choisir un opérateur qui ne revend pas vos données.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Activer un DNS privé souverain",
+          "risk": "Sans DNS privé, votre fournisseur d'accès voit chaque site que vous consultez, même sur HTTPS.",
+          "whyItMatters": "Le DNS privé (DoT) chiffre ces requêtes et les envoie à un opérateur que vous choisissez.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de connexion",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Paramètres > Connexion et partage > DNS privé"
+            },
+            { "label": "Choisir « Nom d'hôte du fournisseur DNS privé »" },
+            { "label": "Saisir le nom d'hôte recommandé selon votre pays" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Désactiver la recherche Wi-Fi/Bluetooth permanente",
+          "risk": "Android scanne les réseaux Wi-Fi et Bluetooth en continu pour améliorer la localisation, même quand vous ne l'utilisez pas.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de localisation",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Paramètres > Localisation > Recherche Wi-Fi et Bluetooth"
+            },
+            { "label": "Désactiver « Recherche Wi-Fi » et « Recherche Bluetooth »" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Assistants vocaux & clavier",
+      "description": "Empêcher l'écoute permanente et la collecte de votre frappe.",
+      "checks": [
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "Désactiver « Hey Google »",
+          "risk": "Avec le mot-clé d'activation, le micro est à l'écoute en permanence.",
+          "severity": "important",
+          "steps": [
+            { "label": "Ouvrir l'application Google, puis « Paramètres » > « Assistant Google »" },
+            { "label": "Aller dans « Hey Google et Voice Match » et désactiver" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "miui-services",
+      "label": "Services MIUI / HyperOS",
+      "description": "Couper les services système Xiaomi qui affichent des publicités et des recommandations dans les applications intégrées.",
+      "checks": [
+        {
+          "checkId": "miui-recommendations",
+          "title": "Désactiver les recommandations dans les applications système",
+          "risk": "Les applications préinstallées (Gestionnaire de fichiers, Navigateur Mi, Sécurité, Thèmes, Téléchargements) affichent par défaut des recommandations et des bannières publicitaires.",
+          "whyItMatters": "Chaque recommandation est générée à partir de votre historique d'usage local via le service MSA.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de confidentialité",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Protection de la vie privée > Autorisations spéciales > Authentification et révocation"
+            },
+            { "label": "Sélectionner « msa » et révoquer l'autorisation" },
+            { "label": "Dans chaque application système (Sécurité, Gestionnaire de fichiers, Thèmes, Navigateur Mi), ouvrir les paramètres et désactiver « Afficher les recommandations » ou « Recevoir des recommandations »" }
+          ]
+        },
+        {
+          "checkId": "miui-lockscreen-ads",
+          "title": "Désactiver le carrousel de fonds d'écran (Glance)",
+          "risk": "Le carrousel de fonds d'écran affiche sur l'écran verrouillé des contenus sponsorisés et collecte des données d'interaction.",
+          "whyItMatters": "Activé par défaut dans la plupart des régions. Le service Glance transmet des données à un partenaire tiers (InMobi).",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Paramètres > Écran de verrouillage > Carrousel de fonds d'écran"
+            },
+            { "label": "Désactiver « Carrousel de fonds d'écran » (ou « Glance pour Mi »)" }
+          ]
+        },
+        {
+          "checkId": "miui-autostart",
+          "title": "Vérifier le démarrage automatique des applications",
+          "risk": "Xiaomi autorise par défaut certaines applications à se lancer en arrière-plan au démarrage et à rester résidentes, même sans être utilisées.",
+          "whyItMatters": "Ces applications peuvent accéder au réseau et à vos capteurs sans que vous les ouvriez.",
+          "severity": "recommended",
+          "steps": [
+            {
+              "label": "Ouvrir la liste des applications",
+              "intent": { "action": "android.settings.APPLICATION_SETTINGS" },
+              "fallbackPath": "Paramètres > Applications > Autorisations > Démarrage automatique en arrière-plan"
+            },
+            { "label": "Passer en revue la liste et désactiver le démarrage automatique pour les applications qui n'en ont pas besoin" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "diagnostics",
+      "label": "Diagnostics & rapports",
+      "description": "Couper l'envoi automatique de rapports d'usage et de diagnostics vers Xiaomi.",
+      "checks": [
+        {
+          "checkId": "xiaomi-diagnostics",
+          "title": "Désactiver les diagnostics Xiaomi",
+          "risk": "Xiaomi collecte en continu des rapports d'usage et d'erreur contenant des informations sur votre appareil et vos habitudes.",
+          "whyItMatters": "Le « Programme d'expérience utilisateur » est activé par défaut et transmet les données aux serveurs Xiaomi.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Ouvrir les paramètres de confidentialité",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Protection de la vie privée > Programme d'expérience utilisateur"
+            },
+            { "label": "Désactiver « Programme d'expérience utilisateur »" },
+            { "label": "Revenir et désactiver « Envoyer les données de diagnostic automatiquement » si présent" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "Permissions des applications",
+      "description": "Vérifier qu'aucune application n'a un accès injustifié à votre micro, caméra ou position.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Auditer les permissions sensibles",
+          "risk": "Certaines applications gardent l'accès au micro, à la caméra ou à votre position en arrière-plan bien au-delà de ce qui est nécessaire.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Ouvrir le gestionnaire d'autorisations",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Paramètres > Protection de la vie privée > Gestionnaire d'autorisations"
+            },
+            { "label": "Passer chaque catégorie (Micro, Caméra, Position) et restreindre les apps suspectes" }
+          ]
+        }
+      ]
+    }
+  ]
+}

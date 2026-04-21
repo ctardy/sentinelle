@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "updatedAt": "2026-04-20",
+  "updatedAt": "2026-04-21",
   "profiles": [
     {
       "profileId": "android-generic",
@@ -11,6 +11,30 @@
     {
       "profileId": "samsung-oneui",
       "manufacturer": "samsung",
+      "languages": ["fr", "en", "es", "de"],
+      "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
+    },
+    {
+      "profileId": "xiaomi-hyperos",
+      "manufacturer": "xiaomi",
+      "languages": ["fr", "en", "es", "de"],
+      "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
+    },
+    {
+      "profileId": "oppo-coloros",
+      "manufacturer": "oppo",
+      "languages": ["fr", "en", "es", "de"],
+      "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
+    },
+    {
+      "profileId": "motorola",
+      "manufacturer": "motorola",
+      "languages": ["fr", "en", "es", "de"],
+      "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
+    },
+    {
+      "profileId": "honor-magicos",
+      "manufacturer": "honor",
       "languages": ["fr", "en", "es", "de"],
       "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }]
     }

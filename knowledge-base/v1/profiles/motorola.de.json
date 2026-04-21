@@ -1,0 +1,162 @@
+{
+  "profileId": "motorola",
+  "language": "de",
+  "label": "Motorola (My UX)",
+  "manufacturer": "motorola",
+  "androidVersions": [{ "minSdk": 29, "maxSdk": 35 }],
+  "categories": [
+    {
+      "categoryId": "identite",
+      "label": "Identität & Werbung",
+      "description": "Werbetracking und Profilbildung durch Google und Drittanbieter-Werbenetzwerke verhindern.",
+      "checks": [
+        {
+          "checkId": "advertising-id",
+          "title": "Werbe-ID löschen",
+          "risk": "Eine eindeutige Kennung, die von Werbenetzwerken verwendet wird, um Ihr Profil über alle Apps hinweg aufzubauen.",
+          "whyItMatters": "Seit Android 12 können Sie diese ID vollständig löschen, anstatt sie nur zurückzusetzen.",
+          "severity": "critical",
+          "autoDetect": { "kind": "advertising-id", "target": "status" },
+          "steps": [
+            {
+              "label": "Google-Einstellungen öffnen",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Einstellungen > Google > Alle Dienste > Anzeigen"
+            },
+            { "label": "Auf „Werbe-ID löschen“ tippen" }
+          ]
+        },
+        {
+          "checkId": "personalized-ads",
+          "title": "Personalisierte Google-Anzeigen deaktivieren",
+          "risk": "Ohne diesen Schritt nutzt Google Ihren Verlauf, um Anzeigen in seinen Diensten zielgerichtet auszuspielen.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "In Ihrem Browser adssettings.google.com aufrufen",
+              "intent": {
+                "action": "android.intent.action.VIEW",
+                "data": "https://adssettings.google.com"
+              }
+            },
+            { "label": "„Personalisierte Werbung“ deaktivieren" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "reseau",
+      "label": "Netzwerk & souveränes DNS",
+      "description": "DNS-Anfragen verschlüsseln und einen Anbieter wählen, der Ihre Daten nicht verkauft.",
+      "checks": [
+        {
+          "checkId": "private-dns",
+          "title": "Souveränes privates DNS aktivieren",
+          "risk": "Ohne privates DNS sieht Ihr Internetanbieter jede aufgerufene Website, auch über HTTPS.",
+          "whyItMatters": "Privates DNS (DoT) verschlüsselt diese Anfragen und leitet sie an einen von Ihnen gewählten Anbieter weiter.",
+          "severity": "critical",
+          "autoDetect": { "kind": "private-dns", "target": "mode" },
+          "steps": [
+            {
+              "label": "Netzwerkeinstellungen öffnen",
+              "intent": { "action": "android.settings.WIRELESS_SETTINGS" },
+              "fallbackPath": "Einstellungen > Netzwerk & Internet > Privates DNS"
+            },
+            { "label": "„Hostname des privaten DNS-Anbieters“ auswählen" },
+            { "label": "Den für Ihr Land empfohlenen Hostnamen eingeben" }
+          ],
+          "dnsOptionsCountryFile": "dns/{country}.json"
+        },
+        {
+          "checkId": "wifi-scanning",
+          "title": "Permanente WLAN-/Bluetooth-Suche deaktivieren",
+          "risk": "Android scannt kontinuierlich WLAN- und Bluetooth-Netzwerke zur Verbesserung der Standortbestimmung, auch wenn Sie sie nicht nutzen.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Standorteinstellungen öffnen",
+              "intent": { "action": "android.settings.LOCATION_SOURCE_SETTINGS" },
+              "fallbackPath": "Einstellungen > Standort > Standortdienste"
+            },
+            { "label": "„WLAN-Suche“ und „Bluetooth-Suche“ deaktivieren" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "assistants",
+      "label": "Sprachassistenten",
+      "description": "Permanentes Mithören des Mikrofons verhindern.",
+      "checks": [
+        {
+          "checkId": "google-assistant-hotword",
+          "title": "„Hey Google“ deaktivieren",
+          "risk": "Bei aktiviertem Aktivierungswort hört das Mikrofon dauerhaft mit.",
+          "severity": "important",
+          "steps": [
+            { "label": "Google-App öffnen, dann Einstellungen > Google Assistant" },
+            { "label": "Zu „Hey Google und Voice Match“ gehen und deaktivieren" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "motorola-services",
+      "label": "Motorola-Dienste",
+      "description": "Datensammlung durch Motorola und Lenovo einschränken.",
+      "checks": [
+        {
+          "checkId": "motorola-services-checkin",
+          "title": "Datenübertragung an Motorola deaktivieren",
+          "risk": "Motorola und der Mutterkonzern Lenovo erfassen Gerätenutzungsdaten über die standardmäßig aktivierten Optionen „Enhanced Device Support“ und „Help Improve“.",
+          "whyItMatters": "Diese Optionen senden regelmäßig Nutzungsberichte an Motorola-/Lenovo-Server, auch wenn Sie keine Motorola-Apps verwenden.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Systemeinstellungen öffnen",
+              "intent": { "action": "android.settings.SETTINGS" },
+              "fallbackPath": "Einstellungen > System > Enhanced Device Support"
+            },
+            { "label": "„Enhanced Device Support“ deaktivieren" },
+            { "label": "In den Einstellungen nach „Help Improve“ suchen und alle gefundenen Optionen deaktivieren" }
+          ]
+        },
+        {
+          "checkId": "motorola-privacy-preferences",
+          "title": "Moto-Secure-Einstellungen überprüfen",
+          "risk": "Die Moto-Secure-App bündelt mehrere Motorola-Datenschutzeinstellungen (Dashboard, Berechtigungen, Netzwerk), von denen einige Daten mit Motorola teilen können.",
+          "severity": "important",
+          "steps": [
+            {
+              "label": "Sicherheit & Datenschutz öffnen",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Einstellungen > Sicherheit & Datenschutz > Weitere Sicherheit & Datenschutz"
+            },
+            { "label": "Die Moto-Secure-Bereiche durchgehen und jede unerwünschte Datenfreigabe deaktivieren" }
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "permissions",
+      "label": "App-Berechtigungen",
+      "description": "Prüfen, dass keine App ungerechtfertigten Zugriff auf Ihr Mikrofon, Ihre Kamera oder Ihren Standort hat.",
+      "checks": [
+        {
+          "checkId": "permissions-audit",
+          "title": "Sensible Berechtigungen überprüfen",
+          "risk": "Einige Apps behalten den Zugriff auf Mikrofon, Kamera oder den Hintergrundstandort weit über das Notwendige hinaus.",
+          "severity": "critical",
+          "steps": [
+            {
+              "label": "Berechtigungsmanager öffnen",
+              "intent": { "action": "android.settings.PRIVACY_SETTINGS" },
+              "fallbackPath": "Einstellungen > Sicherheit & Datenschutz > Datenschutz > Berechtigungsmanager"
+            },
+            { "label": "Jede Kategorie (Mikrofon, Kamera, Standort) durchgehen und verdächtige Apps einschränken" }
+          ]
+        }
+      ]
+    }
+  ]
+}

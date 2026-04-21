@@ -32,6 +32,11 @@
     <string name="device_confirm">Es correcto</string>
     <string name="device_change">Cambiar</string>
     <string name="device_pick_manufacturer">Elegir mi fabricante</string>
+    <string name="device_title_audit_other">¿Qué teléfono quiere auditar?</string>
+    <string name="device_hint_audit_other">Elija el perfil que corresponda al teléfono a auditar (no tiene por qué ser el que tiene en la mano).</string>
+    <string name="device_this_phone_badge">Este teléfono</string>
+    <string name="device_audit_another">Auditar otro teléfono</string>
+    <string name="device_hide_picker">Ocultar la lista</string>
 
     <string name="country_title">Su país</string>
     <string name="country_subtitle">Adapta los DNS recomendados. No cambia el idioma de la aplicación.</string>
