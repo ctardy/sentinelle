@@ -33,8 +33,8 @@
 | AND-09   | Écran détail check avec ouverture d'Intents Réglages            | Fait     |       100 % | AND-08    |
 | AND-10   | Persistance de l'avancement (DataStore, pas de Room finalement) | Fait     |       100 % | AND-03    |
 | AND-11   | Score de souveraineté (header AuditScreen)                      | Fait     |       100 % | AND-10    |
-| AND-12   | Sélecteur pays pour options locales (DNS)                       | À faire  |         0 % | AND-05    |
-| AND-13   | Thème Material 3 + mode sombre cohérent avec le site            | À faire  |         0 % | AND-02    |
+| AND-12   | Sélecteur pays pour options locales (DNS)                       | Fait     |       100 % | AND-05    |
+| AND-13   | Thème Material 3 + mode sombre cohérent avec le site            | Fait     |       100 % | AND-02    |
 | AND-14   | Intégration captures d'écran dans les écrans de check           | À faire  |         0 % | AST-01, AND-09 |
 | AND-15   | Incrémenter `android/version.properties` avant release          | À faire  |         0 % | AND-02    |
 | AND-16   | Script Gradle : copie `knowledge-base/` → `assets/kb/` au build | Fait     |       100 % | AND-02    |
