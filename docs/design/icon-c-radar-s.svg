@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <title>Sentinelle — Icon C — "S" inside radar rings</title>
+  <!-- Background -->
+  <rect width="108" height="108" fill="#2F6FEB"/>
+  <!-- Radar rings -->
+  <g fill="none" stroke="#FFFFFF" stroke-linecap="round">
+    <circle cx="54" cy="54" r="34" opacity="0.18" stroke-width="2"/>
+    <circle cx="54" cy="54" r="24" opacity="0.32" stroke-width="2"/>
+  </g>
+  <!-- S letterform (stroke path, bold) -->
+  <path
+    d="M66 40
+       C66 36 62 33 56 33
+       L50 33
+       C44 33 40 36 40 41
+       C40 46 44 48 50 50
+       L58 52
+       C64 54 68 56 68 62
+       C68 68 64 72 56 72
+       L50 72
+       C44 72 40 69 40 65"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="7"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+</svg>

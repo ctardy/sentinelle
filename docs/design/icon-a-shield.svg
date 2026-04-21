@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <title>Sentinelle — Icon A — Shield + check</title>
+  <!-- Background -->
+  <rect width="108" height="108" fill="#2F6FEB"/>
+  <!-- Shield -->
+  <path
+    d="M54 22
+       L80 32
+       V58
+       C80 72 70 82 54 88
+       C38 82 28 72 28 58
+       V32 Z"
+    fill="#FFFFFF"
+    stroke="#1E40AF"
+    stroke-width="2"
+    stroke-linejoin="round"/>
+  <!-- Checkmark -->
+  <path
+    d="M41 54 L50 63 L68 45"
+    fill="none"
+    stroke="#2F6FEB"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+</svg>

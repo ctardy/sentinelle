@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <title>Sentinelle — Icon B — Beacon tower</title>
+  <!-- Background -->
+  <rect width="108" height="108" fill="#0F172A"/>
+  <!-- Light beams (amber) -->
+  <g fill="#F59E0B" opacity="0.85">
+    <polygon points="54,42 22,28 22,56"/>
+    <polygon points="54,42 86,28 86,56"/>
+  </g>
+  <!-- Tower body -->
+  <g fill="#FFFFFF">
+    <!-- Lamp room -->
+    <rect x="48" y="34" width="12" height="14" rx="2"/>
+    <!-- Balcony -->
+    <rect x="44" y="46" width="20" height="4"/>
+    <!-- Tower shaft -->
+    <polygon points="47,50 61,50 64,82 44,82"/>
+    <!-- Base -->
+    <rect x="40" y="80" width="28" height="6" rx="1"/>
+    <!-- Window -->
+    <rect x="52" y="38" width="4" height="6" fill="#F59E0B"/>
+  </g>
+</svg>
