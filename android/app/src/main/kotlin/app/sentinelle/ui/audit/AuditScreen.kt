@@ -15,6 +15,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,8 +30,13 @@ import androidx.compose.ui.unit.dp
 import app.sentinelle.R
 import app.sentinelle.data.CompletionRepository
 import app.sentinelle.data.KnowledgeBaseRepository
+import app.sentinelle.data.UserPreferencesRepository
+import app.sentinelle.data.UserSelection
+import app.sentinelle.domain.Audience
 import app.sentinelle.domain.Check
+import app.sentinelle.domain.Pace
 import app.sentinelle.domain.Profile
+import app.sentinelle.domain.adaptProfile
 import app.sentinelle.domain.computeProgress
 import java.util.Locale
 import kotlinx.coroutines.launch
@@ -40,10 +46,12 @@ fun AuditScreen(
     profileId: String,
     country: String,
     onCheckClick: (categoryId: String, checkId: String) -> Unit,
+    onRestartWizard: () -> Unit,
 ) {
     val context = LocalContext.current
     val kb = remember { KnowledgeBaseRepository(context) }
     val completion = remember { CompletionRepository(context) }
+    val prefs = remember { UserPreferencesRepository(context) }
     val language = remember { Locale.getDefault().language.ifEmpty { "fr" } }
     val scope = rememberCoroutineScope()
 
@@ -51,9 +59,15 @@ fun AuditScreen(
         value = kb.loadProfile(profileId, language) ?: kb.loadProfile(profileId, "fr")
     }
     val completed by completion.completedCheckIds(profileId).collectAsState(initial = emptySet())
+    val selection by prefs.selection.collectAsState(
+        initial = UserSelection(null, null, null, null),
+    )
 
     val loaded = profile ?: return LoadingScaffold()
-    val progress = computeProgress(loaded, completed)
+    val audience = selection.audience ?: Audience.Self
+    val pace = selection.pace ?: Pace.Full
+    val adapted = adaptProfile(loaded, audience, pace)
+    val progress = computeProgress(adapted, completed)
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
@@ -63,7 +77,7 @@ fun AuditScreen(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
-            Text(loaded.label, style = MaterialTheme.typography.headlineSmall)
+            Text(adapted.label, style = MaterialTheme.typography.headlineSmall)
             Text(
                 text = stringResource(R.string.audit_progress, progress.completedCount, progress.totalCount),
                 style = MaterialTheme.typography.bodyMedium,
@@ -75,7 +89,7 @@ fun AuditScreen(
                 modifier = Modifier.padding(top = 4.dp),
             )
 
-            loaded.categories.forEach { category ->
+            adapted.categories.forEach { category ->
                 Text(
                     text = category.label,
                     style = MaterialTheme.typography.titleMedium,
@@ -95,6 +109,15 @@ fun AuditScreen(
                     )
                     HorizontalDivider()
                 }
+            }
+
+            TextButton(
+                onClick = onRestartWizard,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp, bottom = 16.dp),
+            ) {
+                Text(stringResource(R.string.audit_restart_wizard))
             }
         }
     }
@@ -142,4 +165,3 @@ private fun LoadingScaffold() {
         }
     }
 }
-

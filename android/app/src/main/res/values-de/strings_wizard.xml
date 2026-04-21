@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wizard_step_of">Schritt %1$d von %2$d</string>
+    <string name="wizard_back">Zurück</string>
+    <string name="wizard_next">Weiter</string>
+
+    <string name="welcome_title">Hallo</string>
+    <string name="welcome_intro">Sentinelle begleitet Sie Schritt für Schritt, damit Sie die Kontrolle über Ihr Android-Telefon zurückgewinnen.</string>
+    <string name="welcome_point_autonomous">Eigenständig, kostenlos, werbefrei.</string>
+    <string name="welcome_point_no_data">Keine Daten verlassen Ihr Telefon.</string>
+    <string name="welcome_point_duration">Etwa 10 Minuten im Komplettmodus, 3 im Schnellmodus.</string>
+    <string name="welcome_start">Starten</string>
+    <string name="welcome_skip_intro">Einführung überspringen</string>
+
+    <string name="audience_title">Für wen ist dieses Telefon?</string>
+    <string name="audience_self">Für mich</string>
+    <string name="audience_self_desc">Standard-Audit, alle Themen werden behandelt.</string>
+    <string name="audience_child">Für mein Kind</string>
+    <string name="audience_child_desc">Fokus auf Berechtigungen und Werbung.</string>
+    <string name="audience_senior">Für eine angehörige Person</string>
+    <string name="audience_senior_desc">Einfachheit und Schutz vor Betrug.</string>
+    <string name="audience_gift">Ich habe es gerade verschenkt</string>
+    <string name="audience_gift_desc">Vorkonfiguration vor der Übergabe.</string>
+    <string name="audience_mixed">Beruflich und privat vermischt</string>
+    <string name="audience_mixed_desc">Daten- und Berechtigungstrennung.</string>
+    <string name="audience_suspect">Ich zweifle an einer bestimmten App</string>
+    <string name="audience_suspect_desc">Gezielte Prüfung sensibler Berechtigungen.</string>
+
+    <string name="device_title">Ihr Telefon</string>
+    <string name="device_detected">Erkannt</string>
+    <string name="device_suggested_profile">Empfohlenes Profil: %1$s</string>
+    <string name="device_confirm">Das stimmt</string>
+    <string name="device_change">Ändern</string>
+    <string name="device_pick_manufacturer">Meinen Hersteller wählen</string>
+
+    <string name="country_title">Ihr Land</string>
+    <string name="country_subtitle">Passt die empfohlenen DNS an. Die App-Sprache ändert sich nicht.</string>
+
+    <string name="pace_title">Ihr Tempo</string>
+    <string name="pace_quick">Schnell</string>
+    <string name="pace_quick_desc">Nur kritische Punkte · etwa 3 Minuten.</string>
+    <string name="pace_full">Komplett</string>
+    <string name="pace_full_desc">Alle Punkte · etwa 10 Minuten.</string>
+    <string name="pace_checks_count">%1$d Punkte zu prüfen</string>
+
+    <string name="recap_title">Ihr Plan</string>
+    <string name="recap_profile">Profil</string>
+    <string name="recap_country">Land</string>
+    <string name="recap_audience">Für wen</string>
+    <string name="recap_pace">Tempo</string>
+    <string name="recap_summary">Maßgeschneidertes Audit: %1$d Punkte in Ihren Einstellungen zu prüfen.</string>
+    <string name="recap_privacy">Nichts verlässt Ihr Telefon.</string>
+    <string name="recap_launch">Audit starten</string>
+    <string name="recap_modify">Auswahl ändern</string>
+
+    <string name="audit_restart_wizard">Parcours neu starten</string>
+</resources>

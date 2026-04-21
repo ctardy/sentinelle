@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="onboarding_detected_device">Dispositivo detectado</string>
-    <string name="onboarding_choose_profile">Su perfil</string>
-    <string name="onboarding_choose_country">Su país</string>
-    <string name="onboarding_start_audit">Comenzar la auditoría</string>
-</resources>
